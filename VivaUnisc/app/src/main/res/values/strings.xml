@@ -4,5 +4,8 @@
     <string name="app_name">VivaUnisc</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_my_activity_informacao_adcional">MyActivityInformacaoAdcional</string>
+    <string name="title_activity_activity_informacao_adcional">ActivityInformacaoAdcional</string>
+    <string name="title_activity_activity_cadastro">ActivityCadastro</string>
 
 </resources>

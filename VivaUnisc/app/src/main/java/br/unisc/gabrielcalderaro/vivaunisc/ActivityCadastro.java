@@ -1,35 +1,24 @@
 package br.unisc.gabrielcalderaro.vivaunisc;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import br.unisc.gabrielcalderaro.vivaunisc.R;
 
-
-public class ActivityOficinas extends ActionBarActivity {
+public class ActivityCadastro extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_activity_oficinas);
+        setContentView(R.layout.activity_activity_cadastro);
     }
 
-    public void telaCadastro(View v){
-       Intent it = new Intent(this,ActivityCadastro.class);
-        startActivity(it);
-   }
-
-    public void telaInformacoes(View v) {
-        Intent it = new Intent(this,ActivityInformacaoAdcional.class);
-        startActivity(it);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_oficinas, menu);
+        getMenuInflater().inflate(R.menu.activity_cadastro, menu);
         return true;
     }
 

@@ -16,6 +16,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MyActivityInformacaoAdcional"
+            android:label="@string/title_activity_my_activity_informacao_adcional" >
+        </activity>
+        <activity
+            android:name=".ActivityInformacaoAdcional"
+            android:label="@string/title_activity_activity_informacao_adcional" >
+        </activity>
+        <activity
+            android:name=".ActivityCadastro"
+            android:label="@string/title_activity_activity_cadastro" >
+        </activity>
     </application>
 
 </manifest>
