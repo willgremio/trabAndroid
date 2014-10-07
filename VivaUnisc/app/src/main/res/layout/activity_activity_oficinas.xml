@@ -14,8 +14,7 @@
         android:id="@+id/spinnerOficinas"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="40dp"
-        android:layout_alignParentStart="false" />
+        android:layout_marginTop="40dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -24,7 +23,6 @@
         android:id="@+id/buttonParticipar"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentEnd="true"
         android:onClick="telaCadastro" />
 
     <Button
@@ -32,10 +30,9 @@
         android:layout_height="wrap_content"
         android:text="Informações"
         android:id="@+id/buttonInformacoes"
+        android:onClick="telaInformacoes"
         android:layout_below="@+id/buttonParticipar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="51dp"
-        android:onClick="telaInformacoes" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,16 +43,5 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text=""
-        android:id="@+id/textViewHrDtOficinas"
-        android:layout_below="@+id/spinnerOficinas"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/spinnerOficinas"
-        android:layout_alignEnd="@+id/spinnerOficinas" />
 
 </RelativeLayout>
