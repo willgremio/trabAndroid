@@ -1,14 +1,18 @@
 package br.unisc.gabrielcalderaro.vivaunisc;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,17 +42,17 @@ public class ActivityOficinas extends ActionBarActivity {
                     @Override
                     public void onResponse(JSONObject response){
 
-                        String valor = "";
                         Spinner spinner2 = (Spinner) findViewById(R.id.spinnerOficinas);
                         JSONArray arrJSON = null;
-                        List<String> list = new ArrayList<String>();
+                        String titulo;
+                        ArrayList<String> list = new ArrayList<String>();
                         try {
                             arrJSON = response.getJSONArray("oficinas");
 
                             for(int i =0; i < arrJSON.length(); i++) {
                                 JSONObject jsonKeyValue = arrJSON.getJSONObject(i);
-                                valor = jsonKeyValue.getString("curso");
-                                list.add(valor);
+                                titulo = jsonKeyValue.getString("titulo");
+                                list.add(titulo);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -57,6 +61,7 @@ public class ActivityOficinas extends ActionBarActivity {
                         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, list);
                         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner2.setAdapter(dataAdapter);
+                        spinner2.setOnItemSelectedListener(new CustomOnItemSelectedListener());
                     }
 
                 }, new Response.ErrorListener() {

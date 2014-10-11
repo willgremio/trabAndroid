@@ -8,5 +8,6 @@
     <string name="title_activity_activity_informacao_adcional">ActivityInformacaoAdcional</string>
     <string name="title_activity_activity_cadastro">ActivityCadastro</string>
     <string name="title_activity_list_item">list_item</string>
+    <color name="black">#000000</color>
 
 </resources>
