@@ -7,14 +7,30 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 
 public class ActivityCadastro extends ActionBarActivity {
+
+    private EditText edTxtNome, edTxtEmail, edTxtCelular;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +38,10 @@ public class ActivityCadastro extends ActionBarActivity {
         setContentView(R.layout.activity_activity_cadastro);
         ImageView img = (ImageView) findViewById(R.id.fotoUser);
         img.setImageResource(R.drawable.semfoto);
+
+        edTxtNome = (EditText) findViewById(R.id.editTextNomeCompleto);
+        edTxtEmail = (EditText) findViewById(R.id.editTextEmail);
+        edTxtCelular = (EditText) findViewById(R.id.editTextCelular);
     }
 
     public void tiraFoto(View v){
@@ -39,6 +59,71 @@ public class ActivityCadastro extends ActionBarActivity {
                 ImageView imageView = (ImageView) findViewById(R.id.fotoUser);
                 imageView.setImageBitmap(img);
             }
+        }
+    }
+
+
+    public void salvarCadastro(View view){
+
+        String url = "http://vivaunisc.jossandro.com/estudante";
+
+        final JSONObject jsonBody = new JSONObject();
+
+
+        String nome = edTxtNome.getText().toString();
+        String email = edTxtEmail.getText().toString();
+        String celular = edTxtCelular.getText().toString();
+
+        boolean validacao = true;
+
+        if(nome == null || nome.equals("")){
+            validacao = false;
+            edTxtNome.setError(getString(R.string.error_valNome));
+        }
+
+        if(email == null || email.equals("")){
+            validacao = false;
+            edTxtEmail.setError(getString(R.string.error_valEmail));
+        }
+
+        if(validacao){
+            try{
+                jsonBody.put("nome", nome);
+                jsonBody.put("email", email);
+                jsonBody.put("celular", celular);
+                jsonBody.put("cidade", "");
+                jsonBody.put("id_oficina",9999);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                    (Request.Method.POST, url, jsonBody, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response){
+
+                            String retorno = response.toString();
+                            char aux = retorno.charAt(11);
+                            Log.d("RQ", "Retornou do request! 11 " + aux);
+
+                            if (aux == '0') {
+                                Log.d("RQ", "Retornou do request! " + response.toString());
+                                Toast.makeText(getApplicationContext(), "Não foi possível cadastrar o estudante nesta oficina", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // TODO Auto-generated method stub
+                            Log.d("RQ","caiu no onErrorResponse");
+                            Log.d("RQ",error.toString());
+                        }
+                    });
+            RequestQueue queue = Volley.newRequestQueue(this);
+
+            queue.add(jsObjRequest);
         }
     }
 

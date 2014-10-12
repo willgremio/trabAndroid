@@ -1,0 +1,12 @@
+Classe ActivityCadastro
+
+Método salvarCadastro
+Falta Receber cidade e id de oficina
+
+----------------------------------------------------
+
+Classe activity_activity_cadastro
+
+Adcionar campo EditText de cidade
+
+----------------------------------------------------
