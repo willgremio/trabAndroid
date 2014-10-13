@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,7 +30,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-public class ActivityCadastro extends ActionBarActivity {
+public class ActivityCadastro extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
     private EditText edTxtNome, edTxtEmail, edTxtCelular;
 
@@ -42,6 +44,10 @@ public class ActivityCadastro extends ActionBarActivity {
         edTxtNome = (EditText) findViewById(R.id.editTextNomeCompleto);
         edTxtEmail = (EditText) findViewById(R.id.editTextEmail);
         edTxtCelular = (EditText) findViewById(R.id.editTextCelular);
+
+        AutoCompleteTextView places = (AutoCompleteTextView) findViewById(R.id.autocomplete);
+        places.setAdapter(new AutoComplete(this,android.R.layout.simple_dropdown_item_1line ));
+        places.setOnItemClickListener(this);
     }
 
     public void tiraFoto(View v){
@@ -144,5 +150,12 @@ public class ActivityCadastro extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        // TODO Auto-generated method stub
+        String str = (String) adapterView.getItemAtPosition(position);
+        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
 }

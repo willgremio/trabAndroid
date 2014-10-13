@@ -21,15 +21,16 @@ import java.util.ArrayList;
 /**
  * Created by Gabriel on 18/09/2014.
  */
-public class AutoComplete {
-    private static final String LOG_TAG = "ExampleApp";
+public class AutoComplete extends ArrayAdapter<String> implements Filterable {
+    private ArrayList<String> resultList;
+
+    private static final String LOG_TAG = "Places_api";
 
     private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
     private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
     private static final String OUT_JSON = "/json";
 
-    private static final String API_KEY = "YOUR_API_KEY";
-
+    private static final String API_KEY = "AIzaSyDIRA2Hj_DfhWBHYYXcubZMl4fzMwujtyM";
     private ArrayList<String> autocomplete(String input) {
         ArrayList<String> resultList = null;
 
@@ -37,14 +38,14 @@ public class AutoComplete {
         StringBuilder jsonResults = new StringBuilder();
         try {
             StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
-            sb.append("?key=" + API_KEY);
-            sb.append("&components=country:uk");
+            sb.append("?sensor=false&key=" + API_KEY);
+            sb.append("&components=country:BR");
             sb.append("&input=" + URLEncoder.encode(input, "utf8"));
 
             URL url = new URL(sb.toString());
             conn = (HttpURLConnection) url.openConnection();
             InputStreamReader in = new InputStreamReader(conn.getInputStream());
-
+            Log.d("====", "Requesst send");
             // Load the results into a StringBuilder
             int read;
             char[] buff = new char[1024];
@@ -65,13 +66,17 @@ public class AutoComplete {
 
         try {
             // Create a JSON object hierarchy from the results
+            Log.d("JSON","Parsing resultant JSON :)");
             JSONObject jsonObj = new JSONObject(jsonResults.toString());
             JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
 
             // Extract the Place descriptions from the results
             resultList = new ArrayList<String>(predsJsonArray.length());
+            Log.d("JSON","predsJsonArray has length " + predsJsonArray.length());
             for (int i = 0; i < predsJsonArray.length(); i++) {
+
                 resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
+                Log.d("JSON",resultList.get(i));
             }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Cannot process JSON results", e);
@@ -79,52 +84,50 @@ public class AutoComplete {
 
         return resultList;
     }
+    public AutoComplete(Context context, int textViewResourceId) {
+        super(context, textViewResourceId);
+    }
 
-    private class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
-        private ArrayList<String> resultList;
+    @Override
+    public int getCount() {
+        return resultList.size();
+    }
 
-        public PlacesAutoCompleteAdapter(Context context, int textViewResourceId) {
-            super(context, textViewResourceId);
-        }
+    @Override
+    public String getItem(int index) {
+        return resultList.get(index);
+    }
 
-        @Override
-        public int getCount() {
-            return resultList.size();
-        }
+    @Override
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults filterResults = new FilterResults();
+                if (constraint != null) {
+                    // Retrieve the autocomplete results.
+                    resultList = autocomplete(constraint.toString());
 
-        @Override
-        public String getItem(int index) {
-            return resultList.get(index);
-        }
-
-        @Override
-        public Filter getFilter() {
-            Filter filter = new Filter() {
-                @Override
-                protected FilterResults performFiltering(CharSequence constraint) {
-                    FilterResults filterResults = new FilterResults();
-                    if (constraint != null) {
-                        // Retrieve the autocomplete results.
-                        resultList = autocomplete(constraint.toString());
-
-                        // Assign the data to the FilterResults
-                        filterResults.values = resultList;
-                        filterResults.count = resultList.size();
-                    }
-                    return filterResults;
+                    // Assign the data to the FilterResults
+                    filterResults.values = resultList;
+                    filterResults.count = resultList.size();
                 }
+                return filterResults;
+            }
 
-                @Override
-                protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
-                    if (results != null && results.count > 0) {
-                        notifyDataSetChanged();
-                    }
-                    else {
-                        notifyDataSetInvalidated();
-                    }
-                }};
-            return filter;
-        }
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                if (results != null && results.count > 0) {
+                    notifyDataSetChanged();
+                }
+                else {
+                    notifyDataSetInvalidated();
+                }
+            }
+
+            public boolean onLoadClass(Class arg0) {
+                // TODO Auto-generated method stub
+                return false;
+            }};
+        return filter;
     }
 }
-
