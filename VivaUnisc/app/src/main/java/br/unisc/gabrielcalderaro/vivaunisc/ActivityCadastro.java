@@ -33,21 +33,29 @@ import java.io.File;
 public class ActivityCadastro extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
     private EditText edTxtNome, edTxtEmail, edTxtCelular;
+    private TextView edTxtIdOficina;
+    private AutoCompleteTextView edTxtCidade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_cadastro);
+
+        TextView id = (TextView) findViewById(R.id.id_oficina);
+        Intent int2 = getIntent();
+        id.setText(int2.getStringExtra("id_oficina"));
+
         ImageView img = (ImageView) findViewById(R.id.fotoUser);
         img.setImageResource(R.drawable.semfoto);
 
         edTxtNome = (EditText) findViewById(R.id.editTextNomeCompleto);
         edTxtEmail = (EditText) findViewById(R.id.editTextEmail);
         edTxtCelular = (EditText) findViewById(R.id.editTextCelular);
+        edTxtIdOficina = (TextView) findViewById(R.id.id_oficina);
+        edTxtCidade = (AutoCompleteTextView) findViewById(R.id.autocomplete);
 
         AutoCompleteTextView places = (AutoCompleteTextView) findViewById(R.id.autocomplete);
         places.setAdapter(new AutoComplete(this,android.R.layout.simple_dropdown_item_1line ));
-        places.setOnItemClickListener(this);
     }
 
     public void tiraFoto(View v){
@@ -68,7 +76,6 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
         }
     }
 
-
     public void salvarCadastro(View view){
 
         String url = "http://vivaunisc.jossandro.com/estudante";
@@ -79,6 +86,8 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
         String nome = edTxtNome.getText().toString();
         String email = edTxtEmail.getText().toString();
         String celular = edTxtCelular.getText().toString();
+        String id = edTxtIdOficina.getText().toString();
+        String cidade = edTxtCidade.getText().toString();
 
         boolean validacao = true;
 
@@ -96,9 +105,9 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
             try{
                 jsonBody.put("nome", nome);
                 jsonBody.put("email", email);
-                jsonBody.put("celular", celular);
-                jsonBody.put("cidade", "");
-                jsonBody.put("id_oficina",9999);
+                jsonBody.put("telefone", celular);
+                jsonBody.put("cidade", cidade);
+                jsonBody.put("id_oficina", id);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -111,11 +120,13 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
 
                             String retorno = response.toString();
                             char aux = retorno.charAt(11);
-                            Log.d("RQ", "Retornou do request! 11 " + aux);
+                            //Log.d("RQ", "Retornou do request! 11 " + aux);
 
                             if (aux == '0') {
-                                Log.d("RQ", "Retornou do request! " + response.toString());
-                                Toast.makeText(getApplicationContext(), "Não foi possível cadastrar o estudante nesta oficina", Toast.LENGTH_LONG).show();
+                                //Log.d("RQ", "Retornou do request! " + response.toString());
+                                Toast.makeText(getApplicationContext(), "Não foi possível cadastrar o estudante nesta oficina!", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
                             }
                         }
 
@@ -135,16 +146,12 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_cadastro, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;

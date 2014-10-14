@@ -123,6 +123,16 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=""
+        android:id="@+id/id_oficina"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/autocomplete"
+        android:layout_toEndOf="@+id/autocomplete"
+        android:visibility="invisible" />
 
 
 </RelativeLayout>
