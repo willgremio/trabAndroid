@@ -45,7 +45,7 @@
         android:layout_marginLeft="0pt"/>
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="1in"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/editTextNomeCompleto"
@@ -65,7 +65,7 @@
         android:layout_marginLeft="0pt"/>
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="1in"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/editTextEmail"
@@ -85,7 +85,7 @@
         android:layout_marginLeft="0pt"/>
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="1in"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/editTextCelular"
@@ -107,7 +107,6 @@
     <AutoCompleteTextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text=""
         android:id="@+id/autocomplete"
         android:layout_below="@+id/buttonCarregar"
         android:layout_toRightOf="@+id/textViewEmail"
@@ -124,7 +123,7 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="1in"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text=""
