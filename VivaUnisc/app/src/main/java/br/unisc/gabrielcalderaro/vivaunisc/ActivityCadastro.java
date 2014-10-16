@@ -2,6 +2,7 @@ package br.unisc.gabrielcalderaro.vivaunisc;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -63,17 +64,33 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
         startActivityForResult(it, 0);
     }
 
+
+    public void carregaImage(View v){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Contact Image"), 1);
+        }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (data != null){
-            Bundle bundle = data.getExtras();
-            if (bundle != null){
-                Bitmap img = (Bitmap) bundle.get("data");
+        ImageView imageView = (ImageView) findViewById(R.id.fotoUser);
+        if (requestCode == 0) {
+            if (data != null){
+                Bundle bundle = data.getExtras();
+                if (bundle != null){
+                    Bitmap img = (Bitmap) bundle.get("data");
 
-                ImageView imageView = (ImageView) findViewById(R.id.fotoUser);
-                imageView.setImageBitmap(img);
+                    imageView.setImageBitmap(img);
+                }
+            }
+        } else if ( requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                imageView.setImageURI(data.getData());
             }
         }
+
+
     }
 
     public void salvarCadastro(View view){
@@ -143,6 +160,17 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
             queue.add(jsObjRequest);
         }
     }
+
+
+  /*
+   public void onActivityResult(int reqCode, int resCode, Intent data){
+        if (resCode = RESULT_OK){
+            if (reqCode == 1 ){
+
+            }
+        }
+    }
+  */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -23,7 +23,8 @@
         android:text="Carregar"
         android:id="@+id/buttonCarregar"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"/>
+        android:layout_marginTop="0dp"
+        android:onClick="carregaImage"/>
 
     <Button
         android:layout_width="wrap_content"
