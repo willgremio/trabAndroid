@@ -10,10 +10,179 @@
 
 
     <TextView
-        android:text="@string/hello_world"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Titulo"
+        android:id="@+id/titulo"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Curso"
+        android:id="@+id/curso"
+        android:layout_below="@+id/titulo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Data e Hora"
+        android:id="@+id/data_hora"
+        android:layout_below="@+id/curso"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Duração"
+        android:id="@+id/duracao"
+        android:layout_below="@+id/data_hora"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Descrição"
+        android:id="@+id/descricao"
+        android:layout_below="@+id/duracao"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Responsável"
+        android:id="@+id/responsavel"
+        android:layout_below="@+id/descricao"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Local"
+        android:id="@+id/local"
+        android:layout_below="@+id/responsavel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Vagas"
+        android:id="@+id/vagas"
+        android:layout_below="@+id/local"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Inscritos"
+        android:id="@+id/inscritos"
+        android:layout_below="@+id/vagas"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="resposta1"
+        android:id="@+id/resposta1"
+        android:layout_above="@+id/resposta2"
+        android:layout_alignLeft="@+id/resposta2"
+        android:layout_alignStart="@+id/resposta2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="resposta2"
+        android:id="@+id/resposta2"
+        android:layout_alignTop="@+id/data_hora"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="resposta3"
+        android:id="@+id/resposta3"
+        android:layout_below="@+id/resposta2"
+        android:layout_alignLeft="@+id/resposta2"
+        android:layout_alignStart="@+id/resposta2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="resposta4"
+        android:id="@+id/resposta4"
+        android:layout_below="@+id/resposta3"
+        android:layout_alignLeft="@+id/resposta3"
+        android:layout_alignStart="@+id/resposta3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="resposta5"
+        android:id="@+id/resposta5"
+        android:layout_alignTop="@+id/responsavel"
+        android:layout_alignLeft="@+id/resposta4"
+        android:layout_alignStart="@+id/resposta4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="resposta6"
+        android:id="@+id/resposta6"
+        android:layout_above="@+id/vagas"
+        android:layout_alignLeft="@+id/resposta5"
+        android:layout_alignStart="@+id/resposta5" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="resposta7"
+        android:id="@+id/resposta7"
+        android:layout_below="@+id/resposta6"
+        android:layout_alignLeft="@+id/resposta6"
+        android:layout_alignStart="@+id/resposta6" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="resposta8"
+        android:id="@+id/resposta8"
+        android:layout_below="@+id/resposta7"
+        android:layout_alignLeft="@+id/resposta7"
+        android:layout_alignStart="@+id/resposta7" />
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/myNetworkImageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="65dp"
+        android:layout_below="@+id/inscritos"
+        android:layout_alignRight="@+id/titulo"
+        android:layout_alignEnd="@+id/titulo" />
 </RelativeLayout>
