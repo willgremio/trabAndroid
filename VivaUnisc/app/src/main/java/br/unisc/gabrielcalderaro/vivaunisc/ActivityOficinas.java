@@ -1,7 +1,10 @@
 package br.unisc.gabrielcalderaro.vivaunisc;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,8 +37,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import DB.OficinaContract;
+import DB.OficinaDBHelper;
+
 
 public class ActivityOficinas extends ActionBarActivity {
+    OficinaDBHelper odb = new OficinaDBHelper(this);
+    final ArrayList<String> list = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,46 +51,52 @@ public class ActivityOficinas extends ActionBarActivity {
         setContentView(R.layout.activity_activity_oficinas);
         setListOficinas();
 
+        Spinner spinner2 = (Spinner) findViewById(R.id.spinnerOficinas);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(dataAdapter);
+        spinner2.setOnItemSelectedListener(new CustomOnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> arg0, View selectedItemView, int pos, long id) {
+                String string = list.get(pos).toString();
+                String id_oficina = string.split("\\-")[0];
+                buscaOficina();
+            }
+
+        });
+
     }
 
     public void setListOficinas() {
         String url = "http://vivaunisc.jossandro.com/oficinas";
-
+        final SQLiteDatabase db = this.odb.getWritableDatabase();
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response){
-
-                        Spinner spinner2 = (Spinner) findViewById(R.id.spinnerOficinas);
+                    public void onResponse(JSONObject response) {
                         JSONArray arrJSON = null;
-                        String titulo;
-                        final ArrayList<String> list = new ArrayList<String>();
-
                         try {
                             arrJSON = response.getJSONArray("oficinas");
 
-                            for(int i =0; i < arrJSON.length(); i++) {
+                            for (int i = 0; i < arrJSON.length(); i++) {
                                 JSONObject jsonKeyValue = arrJSON.getJSONObject(i);
-                                titulo = jsonKeyValue.getString("id_oficina") + "-" + jsonKeyValue.getString("titulo");
-                                list.add(titulo);
+                                ContentValues oficina = new ContentValues();
+                                oficina.put(OficinaContract.Oficina.ID_OFICINA, jsonKeyValue.getString("id_oficina"));
+                                oficina.put(OficinaContract.Oficina.CURSO, jsonKeyValue.getString("curso"));
+                                oficina.put(OficinaContract.Oficina.TITULO, jsonKeyValue.getString("titulo"));
+                                oficina.put(OficinaContract.Oficina.IMAGEM, jsonKeyValue.getString("imagem"));
+                                oficina.put(OficinaContract.Oficina.DATA_HORA, jsonKeyValue.getString("data_hora"));
+                                oficina.put(OficinaContract.Oficina.DURACAO, jsonKeyValue.getString("duracao"));
+                                oficina.put(OficinaContract.Oficina.DESCRICAO, jsonKeyValue.getString("descricao"));
+                                oficina.put(OficinaContract.Oficina.RESPONSAVEL, jsonKeyValue.getString("responsável"));
+                                oficina.put(OficinaContract.Oficina.LOCAL, jsonKeyValue.getString("local"));
+                                oficina.put(OficinaContract.Oficina.VAGAS, jsonKeyValue.getString("vagas"));
+                                oficina.put(OficinaContract.Oficina.INSCRITOS, jsonKeyValue.getString("inscritos"));
+                                long newOficinaId = db.insert(OficinaContract.Oficina.TABLE_NAME, null, oficina);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, list);
-                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spinner2.setAdapter(dataAdapter);
-                        spinner2.setOnItemSelectedListener (new CustomOnItemSelectedListener() {
-                            public void onItemSelected(AdapterView<?> arg0, View selectedItemView, int pos, long id) {
-                                String string = list.get(pos).toString();
-                                String id_oficina = string.split("\\-")[0];
-                                buscarOficina(id_oficina);
-                            }
-
-                        });
                     }
-
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {}
@@ -93,43 +107,35 @@ public class ActivityOficinas extends ActionBarActivity {
         queue.add(jsObjRequest);
     }
 
-    public void buscarOficina(final String id) {
-        String url = "http://vivaunisc.jossandro.com/oficina/" + id;
+    public void buscaOficina() {
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response){
-                        try {
-                            String titulo = response.getString("titulo");
-                            String data_hora = response.getString("data_hora");
-                            String imagem = response.getString("imagem");
+        SQLiteDatabase db = this.odb.getReadableDatabase();
 
-                            TextView tit = (TextView) findViewById(R.id.titulo);
-                            TextView data = (TextView) findViewById(R.id.data_hora);
-                            TextView id_oficina = (TextView) findViewById(R.id.id_oficina);
+        String[] projection = {
+                OficinaContract.Oficina.ID_OFICINA,
+                OficinaContract.Oficina.TITULO,
+        };
 
-                            id_oficina.setText(id);
-                            tit.setText(titulo);
-                            data.setText(data_hora);
-                            getImage(imagem);
+        String sortOrder =
+                OficinaContract.Oficina.ID_OFICINA + " DESC";
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
+        Cursor c = db.query(
+                OficinaContract.Oficina.TABLE_NAME,      // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
 
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
+        c.moveToFirst();
+        String oficina = new String();
+        for(String coluna : projection){
 
-                    }
-                });
+            list.add(oficina);
+        }
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        queue.add(jsObjRequest);
     }
 
     public void getImage(String img){
