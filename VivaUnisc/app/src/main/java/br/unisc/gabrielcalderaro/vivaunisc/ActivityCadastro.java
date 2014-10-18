@@ -144,6 +144,8 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
                                 Toast.makeText(getApplicationContext(), "Não foi possível cadastrar o estudante nesta oficina!", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(getApplicationContext(), "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
+                                Intent it = new Intent(getApplicationContext(), ActivityOficinas.class);
+                                startActivity(it);
                             }
                         }
 
