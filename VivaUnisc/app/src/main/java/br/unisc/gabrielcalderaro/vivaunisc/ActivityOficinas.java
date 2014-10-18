@@ -150,7 +150,9 @@ public class ActivityOficinas extends ActionBarActivity {
    }
 
     public void telaInformacoes(View v) {
+        TextView id_oficina = (TextView) findViewById(R.id.id_oficina);
         Intent it = new Intent(this,ActivityInformacaoAdcional.class);
+        it.putExtra("id_oficina", id_oficina.getText().toString());
         startActivity(it);
     }
 
