@@ -25,11 +25,14 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,12 +76,15 @@ public class ActivityOficinas extends ActionBarActivity {
                         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, list);
                         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner2.setAdapter(dataAdapter);
-                        spinner2.setOnItemSelectedListener (new CustomOnItemSelectedListener() {
+                        spinner2.setOnItemSelectedListener (new OnItemSelectedListener() {
                             public void onItemSelected(AdapterView<?> arg0, View selectedItemView, int pos, long id) {
                                 String string = list.get(pos).toString();
                                 String id_oficina = string.split("\\-")[0];
                                 buscarOficina(id_oficina);
                             }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> arg0) {}
 
                         });
                     }
@@ -108,6 +114,11 @@ public class ActivityOficinas extends ActionBarActivity {
                             TextView tit = (TextView) findViewById(R.id.titulo);
                             TextView data = (TextView) findViewById(R.id.data_hora);
                             TextView id_oficina = (TextView) findViewById(R.id.id_oficina);
+
+                            //SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            //Date inputDate = fmt.parse(data_hora);
+                            //SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                            //String dataBr = fmt.format(data_hora);
 
                             id_oficina.setText(id);
                             tit.setText(titulo);
