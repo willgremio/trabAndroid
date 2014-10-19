@@ -32,10 +32,9 @@
         android:layout_height="wrap_content"
         android:text="Tirar Foto"
         android:id="@+id/buttonTirarFoto"
-        android:onClick="tiraFoto"
-        android:layout_below="@+id/fotoUser"
-        android:layout_toRightOf="@+id/buttonCarregar"
-        android:layout_toEndOf="@+id/buttonCarregar" />
+        android:layout_below="@+id/buttonCarregar"
+        android:layout_centerHorizontal="true"
+        android:onClick="tiraFoto" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -122,8 +121,8 @@
         android:id="@+id/buttonSalvar"
         android:onClick="salvarCadastro"
         android:layout_alignTop="@+id/buttonTirarFoto"
-        android:layout_toRightOf="@+id/buttonTirarFoto"
-        android:layout_toEndOf="@+id/buttonTirarFoto" />
+        android:layout_alignRight="@+id/autocomplete"
+        android:layout_alignEnd="@+id/autocomplete" />
 
     <TextView
         android:layout_width="1in"
