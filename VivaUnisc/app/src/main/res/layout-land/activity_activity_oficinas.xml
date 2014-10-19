@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_horizontal_margin"
+    tools:context=".ActivityOficinas"
+    android:background="#0099CC" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Oficinas - Selecione uma Oficina"
+        android:id="@+id/textViewOficinas"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerOficinas"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="40dp"
+        android:popupBackground="@color/black"
+        android:background="@color/black"
+        android:layout_marginBottom="70px"/>
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/myNetworkImageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/textViewOficinas"
+        android:layout_toStartOf="@+id/textViewOficinas" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="..."
+        android:id="@+id/titulo"
+        android:layout_alignTop="@+id/myNetworkImageView"
+        android:layout_toLeftOf="@+id/id_oficina"
+        android:layout_toStartOf="@+id/id_oficina"
+        android:layout_marginRight="39dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="..."
+        android:id="@+id/data_hora"
+        android:layout_below="@+id/titulo"
+        android:layout_alignLeft="@+id/titulo"
+        android:layout_alignStart="@+id/titulo" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Participar"
+        android:id="@+id/buttonParticipar"
+        android:onClick="telaCadastro"
+        android:layout_below="@+id/data_hora"
+        android:layout_toLeftOf="@+id/id_oficina"
+        android:layout_toStartOf="@+id/id_oficina" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Informações"
+        android:id="@+id/buttonInformacoes"
+        android:onClick="telaInformacoes"
+        android:layout_below="@+id/buttonParticipar"
+        android:layout_toLeftOf="@+id/id_oficina" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/id_oficina"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/textViewOficinas"
+        android:layout_alignEnd="@+id/textViewOficinas"
+        android:visibility="invisible" />
+
+
+</RelativeLayout>
