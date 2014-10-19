@@ -18,9 +18,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-/**
- * Created by Gabriel on 18/09/2014.
- */
 public class AutoComplete extends ArrayAdapter<String> implements Filterable {
     private ArrayList<String> resultList;
 

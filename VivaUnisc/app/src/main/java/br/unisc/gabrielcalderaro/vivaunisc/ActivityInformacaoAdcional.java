@@ -1,91 +1,95 @@
 package br.unisc.gabrielcalderaro.vivaunisc;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
-import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import br.unisc.gabrielcalderaro.vivaunisc.R;
+import DB.OficinaContract;
+import DB.OficinaDBHelper;
 
 public class ActivityInformacaoAdcional extends ActionBarActivity {
+    OficinaDBHelper odb = new OficinaDBHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SQLiteDatabase db = this.odb.getReadableDatabase();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_informacao_adcional);
 
         Intent int2 = getIntent();
         final String id = int2.getStringExtra("id_oficina");
+        try {
+                String[] projection = {
+                        OficinaContract.Oficina.TITULO,
+                        OficinaContract.Oficina.CURSO,
+                        OficinaContract.Oficina.DATA_HORA,
+                        OficinaContract.Oficina.DURACAO,
+                        OficinaContract.Oficina.DESCRICAO,
+                        OficinaContract.Oficina.RESPONSAVEL,
+                        OficinaContract.Oficina.LOCAL,
+                        OficinaContract.Oficina.VAGAS,
+                        OficinaContract.Oficina.INSCRITOS,
+                        OficinaContract.Oficina.IMAGEM
+                };
 
-        String url = "http://vivaunisc.jossandro.com/oficina/" + id;
+                String selection = OficinaContract.Oficina.ID_OFICINA + " = ?";
+                String[] selectionArgs = { id };
+                String group = OficinaContract.Oficina.ID_OFICINA;
+                Cursor c = db.query(
+                        OficinaContract.Oficina.TABLE_NAME,      // The table to query
+                        projection,                               // The columns to return
+                        selection,                                // The columns for the WHERE clause
+                        selectionArgs,                            // The values for the WHERE clause
+                        group,                                     // don't group the rows
+                        null,                                     // don't filter by row groups
+                        null                                 // The sort order
+                );
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response){
-                        try {
-                            String titulo = response.getString("titulo");
-                            String curso = response.getString("curso");
-                            String data_hora = response.getString("data_hora");
-                            String duracao = response.getString("duracao");
-                            String descricao = response.getString("descricao");
-                            String responsavel = response.getString("responsável");
-                            String local = response.getString("local");
-                            String vagas = response.getString("vagas");
-                            String inscritos = response.getString("inscritos");
-                            String imagem = response.getString("imagem");
+                c.moveToFirst();
+                String titulo = c.getString(0);
+                String curso = c.getString(1);
+                String data_hora = c.getString(2);
+                String duracao = c.getString(3);
+                String descricao = c.getString(4);
+                String responsavel = c.getString(5);
+                String local = c.getString(6);
+                String vagas = c.getString(7);
+                String inscritos = c.getString(8);
+                String imagem = c.getString(9);
 
-                            TextView tit = (TextView) findViewById(R.id.titulo);
-                            TextView curs = (TextView) findViewById(R.id.resposta1);
-                            TextView data = (TextView) findViewById(R.id.resposta2);
-                            TextView dur = (TextView) findViewById(R.id.resposta3);
-                            TextView desc = (TextView) findViewById(R.id.resposta4);
-                            TextView respons = (TextView) findViewById(R.id.resposta5);
-                            TextView loc = (TextView) findViewById(R.id.resposta6);
-                            TextView vag = (TextView) findViewById(R.id.resposta7);
-                            TextView insc = (TextView) findViewById(R.id.resposta8);
+                TextView tit = (TextView) findViewById(R.id.titulo);
+                TextView curs = (TextView) findViewById(R.id.resposta1);
+                TextView data = (TextView) findViewById(R.id.resposta2);
+                TextView dur = (TextView) findViewById(R.id.resposta3);
+                TextView desc = (TextView) findViewById(R.id.resposta4);
+                TextView respons = (TextView) findViewById(R.id.resposta5);
+                TextView loc = (TextView) findViewById(R.id.resposta6);
+                TextView vag = (TextView) findViewById(R.id.resposta7);
+                TextView insc = (TextView) findViewById(R.id.resposta8);
 
-                            tit.setText(titulo);
-                            data.setText(data_hora);
-                            curs.setText(curso);
-                            dur.setText(duracao);
-                            desc.setText(descricao);
-                            respons.setText(responsavel);
-                            loc.setText(local);
-                            vag.setText(vagas);
-                            insc.setText(inscritos);
-                            getImage(imagem);
+                tit.setText(titulo);
+                data.setText(data_hora);
+                curs.setText(curso);
+                dur.setText(duracao);
+                desc.setText(descricao);
+                respons.setText(responsavel);
+                loc.setText(local);
+                vag.setText(vagas);
+                insc.setText(inscritos);
+                getImage(imagem);
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
-
-                    }
-                });
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        queue.add(jsObjRequest);
     }
 
     public void getImage(String img){

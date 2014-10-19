@@ -2,17 +2,12 @@ package DB;
 
 import android.provider.BaseColumns;
 
-
-/**
- * Created by Shadow on 15/10/2014.
- */
 public final class OficinaContract {
 
     public OficinaContract(){}
 
-    //Classe interna que define uma tabela e seu conteudo
-    public static abstract class Oficina implements BaseColumns{
-        public final static String TABLE_NAME = "Oficina";
+    public final class Oficina implements BaseColumns{
+        public final static String TABLE_NAME = "OFICINA";
         public final static String ID_OFICINA = "id_oficina";
         public final static String CURSO = "curso";
         public final static String TITULO = "titulo";

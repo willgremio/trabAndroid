@@ -130,9 +130,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text=""
         android:id="@+id/id_oficina"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/autocomplete"
-        android:layout_toEndOf="@+id/autocomplete"
+        android:layout_below="@+id/buttonSalvar"
         android:visibility="invisible" />
 
 

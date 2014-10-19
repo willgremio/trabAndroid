@@ -2,9 +2,6 @@ package br.unisc.gabrielcalderaro.vivaunisc;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
-import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -28,8 +25,6 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.File;
 
 public class ActivityCadastro extends ActionBarActivity implements AdapterView.OnItemClickListener {
 

@@ -1,21 +1,18 @@
 package br.unisc.gabrielcalderaro.vivaunisc;
 
-import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,64 +28,55 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
+import DB.OficinaContract;
+import DB.OficinaDBHelper;
 
 
 public class ActivityOficinas extends ActionBarActivity {
+    OficinaDBHelper odb = new OficinaDBHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_oficinas);
-        setListOficinas();
+        setOficinasBanco();
+        buscarTodasOficinas();
 
     }
 
-    public void setListOficinas() {
+    public void setOficinasBanco() {
         String url = "http://vivaunisc.jossandro.com/oficinas";
-
+        final SQLiteDatabase db = this.odb.getWritableDatabase();
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response){
-
-                        Spinner spinner2 = (Spinner) findViewById(R.id.spinnerOficinas);
+                    public void onResponse(JSONObject response) {
                         JSONArray arrJSON = null;
-                        String titulo;
-                        final ArrayList<String> list = new ArrayList<String>();
-
                         try {
                             arrJSON = response.getJSONArray("oficinas");
 
-                            for(int i =0; i < arrJSON.length(); i++) {
+                            for (int i = 0; i < arrJSON.length(); i++) {
                                 JSONObject jsonKeyValue = arrJSON.getJSONObject(i);
-                                titulo = jsonKeyValue.getString("id_oficina") + "-" + jsonKeyValue.getString("titulo");
-                                list.add(titulo);
+                                ContentValues oficina = new ContentValues();
+                                oficina.put(OficinaContract.Oficina.ID_OFICINA, jsonKeyValue.getString("id_oficina"));
+                                oficina.put(OficinaContract.Oficina.CURSO, jsonKeyValue.getString("curso"));
+                                oficina.put(OficinaContract.Oficina.TITULO, jsonKeyValue.getString("titulo"));
+                                oficina.put(OficinaContract.Oficina.IMAGEM, jsonKeyValue.getString("imagem"));
+                                oficina.put(OficinaContract.Oficina.DATA_HORA, jsonKeyValue.getString("data_hora"));
+                                oficina.put(OficinaContract.Oficina.DURACAO, jsonKeyValue.getString("duracao"));
+                                oficina.put(OficinaContract.Oficina.DESCRICAO, jsonKeyValue.getString("descricao"));
+                                oficina.put(OficinaContract.Oficina.RESPONSAVEL, jsonKeyValue.getString("responsável"));
+                                oficina.put(OficinaContract.Oficina.LOCAL, jsonKeyValue.getString("local"));
+                                oficina.put(OficinaContract.Oficina.VAGAS, jsonKeyValue.getString("vagas"));
+                                oficina.put(OficinaContract.Oficina.INSCRITOS, jsonKeyValue.getString("inscritos"));
+                                long newOficinaId = db.insert(OficinaContract.Oficina.TABLE_NAME, null, oficina);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, list);
-                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spinner2.setAdapter(dataAdapter);
-                        spinner2.setOnItemSelectedListener (new OnItemSelectedListener() {
-                            public void onItemSelected(AdapterView<?> arg0, View selectedItemView, int pos, long id) {
-                                String string = list.get(pos).toString();
-                                String id_oficina = string.split("\\-")[0];
-                                buscarOficina(id_oficina);
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> arg0) {}
-
-                        });
                     }
-
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {}
@@ -99,48 +87,82 @@ public class ActivityOficinas extends ActionBarActivity {
         queue.add(jsObjRequest);
     }
 
-    public void buscarOficina(final String id) {
-        String url = "http://vivaunisc.jossandro.com/oficina/" + id;
+    public void buscarTodasOficinas() {
+        final SQLiteDatabase db = this.odb.getReadableDatabase();
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response){
-                        try {
-                            String titulo = response.getString("titulo");
-                            String data_hora = response.getString("data_hora");
-                            String imagem = response.getString("imagem");
+        String[] projection = {
+                OficinaContract.Oficina.TITULO
+        };
 
-                            TextView tit = (TextView) findViewById(R.id.titulo);
-                            TextView data = (TextView) findViewById(R.id.data_hora);
-                            TextView id_oficina = (TextView) findViewById(R.id.id_oficina);
+        String group = OficinaContract.Oficina.ID_OFICINA;
 
-                            //SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            //Date inputDate = fmt.parse(data_hora);
-                            //SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                            //String dataBr = fmt.format(data_hora);
+        Cursor c = db.query(
+                OficinaContract.Oficina.TABLE_NAME,      // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                group,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
 
-                            id_oficina.setText(id);
-                            tit.setText(titulo);
-                            data.setText(data_hora);
-                            getImage(imagem);
+        final ArrayList<String> list = new ArrayList<String>();
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
+        if (c.moveToFirst()) {
+            do {
 
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
+                list.add(c.getString(0));
 
-                    }
-                });
+            } while (c.moveToNext());
+        }
 
-        RequestQueue queue = Volley.newRequestQueue(this);
+        Spinner spinner2 = (Spinner) findViewById(R.id.spinnerOficinas);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(dataAdapter);
+        spinner2.setOnItemSelectedListener (new OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> arg0, View selectedItemView, int pos, long id) {
+                buscaOficinaClicada(list.get(pos).toString());
+            }
 
-        queue.add(jsObjRequest);
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {}
+
+        });
+    }
+
+    public void buscaOficinaClicada (String string) {
+        SQLiteDatabase db = this.odb.getReadableDatabase();
+
+        String[] projection = {
+                OficinaContract.Oficina.DATA_HORA,
+                OficinaContract.Oficina.ID_OFICINA,
+                OficinaContract.Oficina.IMAGEM
+        };
+
+        String selection = OficinaContract.Oficina.TITULO + " = ?";
+        String[] selectionArgs = { string };
+        String group = OficinaContract.Oficina.ID_OFICINA;
+        Cursor c = db.query(
+                OficinaContract.Oficina.TABLE_NAME,      // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                group,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        c.moveToFirst();
+        TextView tit = (TextView) findViewById(R.id.titulo);
+        TextView data = (TextView) findViewById(R.id.data_hora);
+        TextView id_oficina = (TextView) findViewById(R.id.id_oficina);
+
+        tit.setText(string);
+        data.setText(c.getString(0));
+        id_oficina.setText(c.getString(1));
+        getImage(c.getString(2));
+
     }
 
     public void getImage(String img){
