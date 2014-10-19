@@ -22,9 +22,25 @@ public class OficinaDBHelper  extends SQLiteOpenHelper {
                     OficinaContract.Oficina.INSCRITOS + " TEXT" +
                     " )";
 
+
+    private static final String SQL_CREATE_TABLE_ESTUDANTE =
+            "CREATE TABLE " + OficinaContract.Estudante.TABLE_NAME + " (" +
+                    OficinaContract.Estudante._ID + " INTEGER PRIMARY KEY," +
+                    OficinaContract.Estudante.ID_OFICINA + " TEXT," +
+                    OficinaContract.Estudante.NOME + " TEXT," +
+                    OficinaContract.Estudante.EMAIL + " TEXT," +
+                    OficinaContract.Estudante.TELEFONE +  " TEXT," +
+                    OficinaContract.Estudante.CIDADE + " TEXT" +
+                    " )";
+
     private static final String SQL_DELETE_TABLE_OFICINA =
             "DROP TABLE IF EXISTS " + OficinaContract.Oficina.TABLE_NAME;
-    public static final int DATABASE_VERSION = 2;
+
+    private static final String SQL_DELETE_TABLE_ESTUDANTE =
+            "DROP TABLE IF EXISTS " + OficinaContract.Estudante.TABLE_NAME;
+
+
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "VivaUnisc.db";
 
     public OficinaDBHelper(Context context) {
@@ -34,11 +50,13 @@ public class OficinaDBHelper  extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_TABLE_OFICINA);
+        db.execSQL(SQL_CREATE_TABLE_ESTUDANTE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(SQL_DELETE_TABLE_OFICINA);
+        db.execSQL(SQL_DELETE_TABLE_ESTUDANTE);
         onCreate(db);
     }
 

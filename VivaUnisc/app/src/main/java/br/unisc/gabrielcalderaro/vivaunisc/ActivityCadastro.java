@@ -1,6 +1,9 @@
 package br.unisc.gabrielcalderaro.vivaunisc;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
@@ -10,9 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +31,13 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import DB.OficinaContract;
+import DB.OficinaDBHelper;
+
 public class ActivityCadastro extends ActionBarActivity implements AdapterView.OnItemClickListener {
+    OficinaDBHelper odb = new OficinaDBHelper(this);
 
     private EditText edTxtNome, edTxtEmail, edTxtCelular;
     private TextView edTxtIdOficina;
@@ -89,12 +100,6 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
     }
 
     public void salvarCadastro(View view){
-
-        String url = "http://vivaunisc.jossandro.com/estudante";
-
-        final JSONObject jsonBody = new JSONObject();
-
-
         String nome = edTxtNome.getText().toString();
         String email = edTxtEmail.getText().toString();
         String celular = edTxtCelular.getText().toString();
@@ -114,16 +119,21 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
         }
 
         if(validacao){
-            try{
-                jsonBody.put("nome", nome);
-                jsonBody.put("email", email);
-                jsonBody.put("telefone", celular);
-                jsonBody.put("cidade", cidade);
-                jsonBody.put("id_oficina", id);
+            salvarEstudanteBanco(nome, email, celular, cidade, id);
+            salvarEstudanteWeb(nome, email, celular, cidade, id);
+        }
+    }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+    public void salvarEstudanteWeb(String nome, String email, String celular, String cidade, String id_oficina) {
+        String url = "http://vivaunisc.jossandro.com/estudante";
+        final JSONObject jsonBody = new JSONObject();
+
+        try{
+            jsonBody.put("nome", nome);
+            jsonBody.put("email", email);
+            jsonBody.put("telefone", celular);
+            jsonBody.put("cidade", cidade);
+            jsonBody.put("id_oficina", id_oficina);
 
             JsonObjectRequest jsObjRequest = new JsonObjectRequest
                     (Request.Method.POST, url, jsonBody, new Response.Listener<JSONObject>() {
@@ -155,7 +165,28 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
             RequestQueue queue = Volley.newRequestQueue(this);
 
             queue.add(jsObjRequest);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+    }
+
+    public void salvarEstudanteBanco(String nome, String email, String celular, String cidade, String id_oficina) {
+        final SQLiteDatabase db = this.odb.getWritableDatabase();
+        ContentValues estudante = new ContentValues();
+        try {
+            estudante.put(OficinaContract.Estudante.ID_OFICINA, id_oficina);
+            estudante.put(OficinaContract.Estudante.NOME, nome);
+            estudante.put(OficinaContract.Estudante.EMAIL, email);
+            estudante.put(OficinaContract.Estudante.TELEFONE, celular);
+            estudante.put(OficinaContract.Estudante.CIDADE, cidade);
+            long newEstudanteId = db.insert(OficinaContract.Estudante.TABLE_NAME, null, estudante);
+
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+
     }
 
 
