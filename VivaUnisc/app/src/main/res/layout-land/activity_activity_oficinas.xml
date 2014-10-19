@@ -43,10 +43,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="..."
         android:id="@+id/titulo"
-        android:layout_alignTop="@+id/myNetworkImageView"
-        android:layout_toLeftOf="@+id/id_oficina"
-        android:layout_toStartOf="@+id/id_oficina"
-        android:layout_marginRight="39dp" />
+        android:layout_below="@+id/spinnerOficinas"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -65,8 +64,8 @@
         android:id="@+id/buttonParticipar"
         android:onClick="telaCadastro"
         android:layout_below="@+id/data_hora"
-        android:layout_toLeftOf="@+id/id_oficina"
-        android:layout_toStartOf="@+id/id_oficina" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -75,7 +74,8 @@
         android:id="@+id/buttonInformacoes"
         android:onClick="telaInformacoes"
         android:layout_below="@+id/buttonParticipar"
-        android:layout_toLeftOf="@+id/id_oficina" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"

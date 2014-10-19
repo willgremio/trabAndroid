@@ -67,7 +67,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Responsável"
         android:id="@+id/responsavel"
-        android:layout_below="@+id/descricao"
+        android:layout_below="@+id/resposta4"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -192,8 +192,7 @@
         android:id="@+id/myNetworkImageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_toEndOf="@+id/titulo"
-        android:layout_below="@+id/inscritos"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/resposta8"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>
