@@ -116,8 +116,13 @@ public class ActivityOficinas extends ActionBarActivity {
         TextView data = (TextView) findViewById(R.id.data_hora);
         TextView id_oficina = (TextView) findViewById(R.id.id_oficina);
 
+
+        String dataBr;
+        ConverterDataHora cdh = new ConverterDataHora();
+        dataBr = cdh.retornaData(c.getString(0));
+
         tit.setText(string);
-        data.setText(c.getString(0));
+        data.setText(dataBr);
         id_oficina.setText(c.getString(1));
         getImage(c.getString(2));
 

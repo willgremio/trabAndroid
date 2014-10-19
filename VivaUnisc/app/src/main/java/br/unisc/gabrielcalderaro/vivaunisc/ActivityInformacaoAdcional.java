@@ -75,8 +75,13 @@ public class ActivityInformacaoAdcional extends ActionBarActivity {
                 TextView vag = (TextView) findViewById(R.id.resposta7);
                 TextView insc = (TextView) findViewById(R.id.resposta8);
 
+
+                ConverterDataHora cdh = new ConverterDataHora();
+                String dataBR;
+                dataBR = cdh.retornaData(c.getString(2));
+
                 tit.setText(titulo);
-                data.setText(data_hora);
+                data.setText(dataBR);
                 curs.setText(curso);
                 dur.setText(duracao);
                 desc.setText(descricao);

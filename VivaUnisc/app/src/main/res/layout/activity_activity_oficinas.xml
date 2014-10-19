@@ -55,7 +55,8 @@
         android:id="@+id/data_hora"
         android:layout_below="@+id/titulo"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20px" />
+        android:layout_marginBottom="20px"
+        />
 
     <Button
         android:layout_width="wrap_content"
