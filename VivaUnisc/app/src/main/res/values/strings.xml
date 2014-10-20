@@ -16,4 +16,36 @@
     <string name="erro_valCharEmail">Caracteres inválidos o email</string>
     <color name="black">#000000</color>
 
+    <!-- Cadastro -->
+    <string name="cadastro_ButtonCarregar">Carregar</string>
+    <string name="cadastro_ButtonTirarFoto">Tirar Foto</string>
+    <string name="cadastro_txtViewNomeCompleto">Nome Completo:</string>
+    <string name="cadastro_txtViewEmail">Email:</string>
+    <string name="cadastro_txtViewTelefone">Telefone:</string>
+    <string name="cadastro_txtViewCidade">Cidade:</string>
+    <string name="cadastro_ButtonCadastrar">Cadastrar</string>
+
+    <!-- Informação Adcional -->
+    <string name="infAd_txtViewCurso">Curso</string>
+    <string name="infAd_txtViewDtHr">Data e Hora</string>
+    <string name="infAd_txtViewDuracao">Duração</string>
+    <string name="infAd_txtViewDescricao">Descrição</string>
+    <string name="infAd_txtViewResponsavel">Responsável</string>
+    <string name="infAd_txtViewLocal">Local</string>
+    <string name="infAd_txtViewVagas">Vagas</string>
+    <string name="infAd_txtViewInscritos">Inscritos</string>
+
+    <!-- Inicio -->
+    <string name="inicio_txtViewBoasVindas">Bem-Vindo ao App do Viva Unisc</string>
+    <string name="inicio_ButtonCliqueAqui">Clique aqui para ver as Oficinas</string>
+    <string name="inicio_txtViewDesenvolvido">Desenvolvido por:</string>
+
+    <!-- Oficinas -->
+    <string name="oficinas_txtViewSelectOficinas">Oficinas - Selecione uma Oficina</string>
+    <string name="oficinas_ButtonParticipar">Participar</string>
+    <string name="oficinas_ButtonInformacao">Informações</string>
+
+
+
+
 </resources>
