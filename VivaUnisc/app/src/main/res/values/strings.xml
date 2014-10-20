@@ -13,7 +13,7 @@
     <string name="error_valNome">Nome obrigatório!</string>
     <string name="error_valEmail">Email obrigatório!</string>
     <string name="error_valCidade">Cidade deve estar no padrão autocomple ou não preencher! (ex: "Canoas, Rio Grande do Sul, Brasil"</string>
-
+    <string name="erro_valCharEmail">Caracteres inválidos o email</string>
     <color name="black">#000000</color>
 
 </resources>
