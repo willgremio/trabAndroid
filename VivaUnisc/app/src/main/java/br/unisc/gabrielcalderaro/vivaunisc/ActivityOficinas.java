@@ -29,8 +29,8 @@ public class ActivityOficinas extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        buscarTodasOficinas();
         setContentView(R.layout.activity_activity_oficinas);
+        buscarTodasOficinas();
     }
 
     public void buscarTodasOficinas() {
