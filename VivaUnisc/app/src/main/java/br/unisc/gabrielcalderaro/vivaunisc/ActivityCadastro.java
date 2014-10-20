@@ -102,13 +102,15 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
         String cidade = edTxtCidade.getText().toString();
 
         boolean validacao = true;
-        boolean validacaoCidade;
-        boolean validaEmail = true;
+        boolean validacaoCidade, validaEmail, validacaoNome, validacaoTelefone;
 
-        RegrexAutoComplete rac = new RegrexAutoComplete();
+
+        RegrexValidaoes rac = new RegrexValidaoes();
 
         validacaoCidade = rac.validaCidade(cidade);
         validaEmail = rac.validaEmail(email);
+        validacaoNome = rac.validaNome(nome);
+        validacaoTelefone = rac.validaTelefone(celular);
 
 
         if (validacaoCidade == true || cidade == null){
