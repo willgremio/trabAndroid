@@ -23,4 +23,7 @@ public class ConverterDataHora {
             return dia +"/"+ mes +"/"+ ano+" "+hora;
     }
 
+    public void validaCidade(){
+
+    }
 }

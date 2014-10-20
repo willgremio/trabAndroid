@@ -107,21 +107,28 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
         String cidade = edTxtCidade.getText().toString();
 
         boolean validacao = true;
+        boolean validacaoCidade;
 
-        if(nome == null || nome.equals("")){
-            validacao = false;
-            edTxtNome.setError(getString(R.string.error_valNome));
-        }
+        RegrexAutoComplete rac = new RegrexAutoComplete();
 
-        if(email == null || email.equals("")){
-            validacao = false;
-            edTxtEmail.setError(getString(R.string.error_valEmail));
-        }
+        validacaoCidade = rac.validaCidade(cidade);
 
-        if(validacao){
-            salvarEstudanteBanco(nome, email, celular, cidade, id);
-            salvarEstudanteWeb(nome, email, celular, cidade, id);
-        }
+        if (validacaoCidade == true || cidade == null){
+            if(nome == null || nome.equals("")){
+                validacao = false;
+                edTxtNome.setError(getString(R.string.error_valNome));
+            }
+
+            if(email == null || email.equals("")){
+                validacao = false;
+                edTxtEmail.setError(getString(R.string.error_valEmail));
+            }
+
+            if(validacao){
+                salvarEstudanteBanco(nome, email, celular, cidade, id);
+                salvarEstudanteWeb(nome, email, celular, cidade, id);
+            }
+        } else edTxtCidade.setError(getString(R.string.error_valCidade));
     }
 
     public void salvarEstudanteWeb(String nome, String email, String celular, String cidade, String id_oficina) {
