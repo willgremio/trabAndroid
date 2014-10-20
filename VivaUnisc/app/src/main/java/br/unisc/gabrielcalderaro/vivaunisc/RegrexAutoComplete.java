@@ -2,6 +2,8 @@ package br.unisc.gabrielcalderaro.vivaunisc;
 
 public class RegrexAutoComplete {
 
+    String padrao1 = "";
+
     String padrao11 = "[A-Z][a-z]*\\ \\-\\ [A-Z][a-z]*\\,\\ [A-Z][a-z]*";
 
     String padrao12 = "[A-Z][a-z]*\\ \\-\\ [A-Z][a-z]*\\ [A-Z][a-z]*\\,\\ [A-Z][a-z]*";
@@ -41,6 +43,8 @@ public class RegrexAutoComplete {
     public Boolean validaCidade(String cidade){
 
         if(cidade.matches(padrao11)){
+            return true;
+        }  else if (cidade.matches(padrao1)){
             return true;
         }  else if (cidade.matches(padrao12)){
             return true;

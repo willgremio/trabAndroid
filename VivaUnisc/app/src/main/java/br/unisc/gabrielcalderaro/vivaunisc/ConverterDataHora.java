@@ -11,7 +11,7 @@ public class ConverterDataHora {
             String ano = dataHora.substring(0, 4);
             String hora = dataHora.substring(10,16);
 
-            return dia +"/"+ mes +"/"+ ano+" "+hora;
+            return dia +"/"+ mes +"/"+ ano+" "+hora + " h";
     }
 
 }
