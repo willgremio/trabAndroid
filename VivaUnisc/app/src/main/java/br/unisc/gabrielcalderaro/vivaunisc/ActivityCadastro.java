@@ -109,7 +109,6 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
 
         validacaoCidade = rac.validaCidade(cidade);
         validaEmail = rac.validaEmail(email);
-        validacaoNome = rac.validaNome(nome);
         validacaoTelefone = rac.validaTelefone(celular);
 
 
@@ -126,6 +125,9 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
 
             if(validaEmail == false){
                 edTxtEmail.setError(getString(R.string.erro_valCharEmail));
+            }
+            if (rac.validaTelefone(celular) == false){
+                edTxtCelular.setError("Somente números");
             }
 
             if(validacao && validaEmail){
