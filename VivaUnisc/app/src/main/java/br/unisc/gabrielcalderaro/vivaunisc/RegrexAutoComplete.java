@@ -1,8 +1,5 @@
 package br.unisc.gabrielcalderaro.vivaunisc;
 
-/**
- * Created by Gabriel on 20/10/2014.
- */
 public class RegrexAutoComplete {
 
     String padrao11 = "[A-Z][a-z]*\\ \\-\\ [A-Z][a-z]*\\,\\ [A-Z][a-z]*";
@@ -77,4 +74,5 @@ public class RegrexAutoComplete {
             return true;
         } else return false;
     }
+
 }

@@ -2,7 +2,6 @@ package br.unisc.gabrielcalderaro.vivaunisc;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
@@ -13,11 +12,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,8 +27,6 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import DB.OficinaContract;
 import DB.OficinaDBHelper;
@@ -196,17 +191,6 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
 
     }
 
-
-  /*
-   public void onActivityResult(int reqCode, int resCode, Intent data){
-        if (resCode = RESULT_OK){
-            if (reqCode == 1 ){
-
-            }
-        }
-    }
-  */
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_cadastro, menu);
@@ -224,8 +208,8 @@ public class ActivityCadastro extends ActionBarActivity implements AdapterView.O
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        // TODO Auto-generated method stub
         String str = (String) adapterView.getItemAtPosition(position);
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
+
 }
