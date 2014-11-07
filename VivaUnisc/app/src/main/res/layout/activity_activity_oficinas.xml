@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Oficinas - Selecione uma Oficina"
+        android:text="@string/oficinas_txtViewSelectOficinas"
         android:id="@+id/textViewOficinas"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -60,7 +60,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Participar"
+        android:text="@string/oficinas_ButtonParticipar"
         android:id="@+id/buttonParticipar"
         android:onClick="telaCadastro"
         android:layout_below="@+id/data_hora"
@@ -69,17 +69,11 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Informações"
+        android:text="@string/oficinas_ButtonInformacao"
         android:id="@+id/buttonInformacoes"
         android:onClick="telaInformacoes"
         android:layout_below="@+id/buttonParticipar"
         android:layout_centerHorizontal="true" />
-
-
-
-
-
-
 
     <TextView
         android:layout_width="wrap_content"
