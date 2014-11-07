@@ -18,7 +18,7 @@ public class RegrexAutoComplete {
 
     String padrao23 = "[A-Z][a-z]*\\ [A-Z][a-z]*\\ \\-\\ [A-Z][a-z]*\\ [a-z]*\\ [A-Z][a-z]*,\\ [A-Z][a-z]*";
 
-    String padrao24 = "[A-Z][a-z]*\\ [A-Z][a-z]*\\ \\-\\ [A-Z][a-z]*\\ [A-Z][a-z]*\\ [a-z]*\\ [A-Z][a-z]*\\,\\ [A-Z][a-z]*";
+    String padrao24 = "[A-Z][a-z][a-zà-ú]*\\ [A-Z][a-z]*\\ \\-\\ [A-Z][a-z]*\\ [A-Z][a-z]*\\ [a-z]*\\ [A-Z][a-z]*\\,\\ [A-Z][a-z]*";
 
     String padrao31 = "[A-Z][a-z]*\\ [a-z]*\\ [A-Z][a-z]*\\ \\-\\ [A-Z][a-z]*\\,\\ [A-Z][a-z]*";
 
@@ -26,7 +26,7 @@ public class RegrexAutoComplete {
 
     String padrao33 = "[A-Z][a-z]*\\ [a-z]*\\ [A-Z][a-z]*\\ \\-\\ [A-Z][a-z]*\\ [a-z]*\\ [A-Z][a-z]*,\\ [A-Z][a-z]*";
 
-    String padrao34 = "[A-Z][a-z]*\\ [a-z]*\\ [A-Z][a-z]*\\ \\-\\ [A-Z][a-z]*\\ [A-Z][a-z]*\\ [a-z]*\\ [A-Z][a-z]*\\,\\ [A-Z][a-z]*";
+    String padrao34 = "[A-Z][a-z][a-zà-ú]*\\ [a-z]*\\ [A-Z][a-z][a-zà-ú]*\\ \\-\\ [A-Z][a-z]*\\ [A-Z][a-z]*\\ [a-z]*\\ [A-Z][a-z]*\\,\\ [A-Z][a-z]*";
 
     String padrao41 = "[A-Z][a-z]*\\ [A-Z][a-z]*\\ [a-z]*\\ [A-Z][a-z]*\\ \\-\\ [A-Z][a-z]*\\,\\ [A-Z][a-z]*";
 
