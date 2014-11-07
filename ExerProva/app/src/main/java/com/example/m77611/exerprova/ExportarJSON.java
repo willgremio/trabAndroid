@@ -7,10 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.m77611.exerprova.DB.EnergiaContract;
 import com.example.m77611.exerprova.DB.EnergiaHelper;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -20,10 +24,16 @@ import java.io.IOException;
 public class ExportarJSON extends Activity {
     EnergiaHelper odb = new EnergiaHelper(this);
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_exportar_json);
         final SQLiteDatabase db = this.odb.getReadableDatabase();
+
+        TextView tv = (TextView) findViewById(R.id.tvJSONARRAY);
+
+
         String[] projection = {
                 EnergiaContract.Energia.COD_CLI,
                 EnergiaContract.Energia.RUA,
@@ -41,13 +51,25 @@ public class ExportarJSON extends Activity {
                 null
         );
 
-        String texto = "";
-        if (c.moveToFirst()) {
-            do {
-                texto += "Cod: " + c.getString(0) + " Rua " + c.getString(1) + ", " + c.getString(2) + "\n";
-                texto += "Consumo " + c.getString(3) + "\n\n";
-            } while (c.moveToNext());
+        JSONArray jsonArray = new JSONArray();
+
+        try {
+            if (c.moveToFirst()) {
+                do {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("Código", c.getString(0));
+                    jsonObject.put("Rua", c.getString(1));
+                    jsonObject.put("Número ", c.getString(2));
+                    jsonObject.put("Consumo", c.getString(3));
+
+                    jsonArray.put(jsonObject);
+                } while (c.moveToNext());
+            }
+        } catch (JSONException error){
+            error.printStackTrace();
         }
+
+        tv.setText(jsonArray.toString());
 
         try {
             File root = new File(Environment.getExternalStorageDirectory(), "Notes");
@@ -56,10 +78,9 @@ public class ExportarJSON extends Activity {
             }
             File gpxfile = new File(root, "ArquivoJson.txt");
             FileWriter writer = new FileWriter(gpxfile);
-            writer.append(texto);
+            writer.append(jsonArray.toString());
             writer.flush();
             writer.close();
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,12 +94,11 @@ public class ExportarJSON extends Activity {
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("plain/text");
         i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"willian.serafini@gmail.com"});
-        i.putExtra(Intent.EXTRA_SUBJECT, "Exer JSON!");
-        i.putExtra(Intent.EXTRA_TEXT   , "exportando do banco pro txt");
+        i.putExtra(Intent.EXTRA_SUBJECT, "Exer Revisão Prova!");
+        i.putExtra(Intent.EXTRA_TEXT   , "Exportando banco para txt");
         i.putExtra(Intent.EXTRA_STREAM, uri);
 
         startActivity(i);
     }
-
 
 }

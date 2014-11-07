@@ -50,6 +50,10 @@ public class NovaLeitura extends Activity {
         }
     }
 
+    public void voltar(View view) {
+        finish();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -11,7 +11,7 @@ import android.widget.ListView;
 
 
 public class MyActivity extends ListActivity {
-    private static final String[] nomes = new String[] { "Nova Leitura", "Listar ultimas leituras", "Exportar dados para JSON", "Teste", "Sair" };
+    private static final String[] nomes = new String[] { "Nova Leitura", "Listar ultimas leituras", "Exportar dados para JSON", "Sair" };
 
     @Override
     protected void onCreate(Bundle icicle) {
@@ -30,9 +30,6 @@ public class MyActivity extends ListActivity {
                 break;
             case 2:
                 startActivity(new Intent(this, ExportarJSON.class));
-                break;
-            case 3:
-                startActivity(new Intent(this, TesteJSONArray.class));
                 break;
             default:
                 finish();
