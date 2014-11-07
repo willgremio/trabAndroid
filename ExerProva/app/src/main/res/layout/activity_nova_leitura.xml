@@ -87,25 +87,34 @@
         android:inputType="number"
         android:ems="10" />
 
-    <Button
-        android:layout_width="wrap_content"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cadastrar"
-        android:id="@+id/cadastrar"
+        android:background="#737373"
         android:layout_below="@+id/kwh"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="45dp"
-        android:onClick="cadastraLeitura" />
+        android:layout_marginTop="23dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gravar Leitura"
+            android:id="@+id/cadastrar"
+            android:onClick="cadastraLeitura"
+            android:layout_alignBottom="@+id/voltar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Voltar"
-        android:id="@+id/voltar"
-        android:layout_alignTop="@+id/cadastrar"
-        android:layout_toRightOf="@+id/num_end"
-        android:layout_toEndOf="@+id/num_end"
-        android:onClick="voltar"   />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Voltar"
+            android:id="@+id/voltar"
+            android:onClick="voltar"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
