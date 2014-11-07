@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.m77611.exerprova" >
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -28,6 +29,10 @@
         <activity
             android:name=".ExportarJSON"
             android:label="@string/title_activity_exportar_json" >
+        </activity>
+        <activity
+            android:name=".TesteJSONArray"
+            android:label="@string/title_activity_teste_jsonarray" >
         </activity>
     </application>
 
