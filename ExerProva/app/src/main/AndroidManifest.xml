@@ -30,10 +30,6 @@
             android:name=".ExportarJSON"
             android:label="@string/title_activity_exportar_json" >
         </activity>
-        <activity
-            android:name=".TesteJSONArray"
-            android:label="@string/title_activity_teste_jsonarray" >
-        </activity>
     </application>
 
 </manifest>
