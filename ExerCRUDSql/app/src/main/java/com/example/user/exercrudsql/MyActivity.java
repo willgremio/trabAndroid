@@ -86,6 +86,11 @@ public class MyActivity extends ListActivity implements android.view.View.OnClic
         startActivity(it);
     }
 
+    public void abreTelaCategoria(View view){
+        Intent it = new Intent(getApplicationContext(), ActivityNovaCateforia.class);
+        startActivity(it);
+    }
+
     @Override
     public void onClick(View v) {
 

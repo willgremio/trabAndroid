@@ -31,4 +31,14 @@ android:paddingBottom="@dimen/activity_vertical_margin" >
         android:layout_height="wrap_content"
         android:text="Lista vazia" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nova Categoria"
+        android:id="@+id/buttonCategoria"
+        android:layout_below="@id/android:list"
+        android:layout_toRightOf="@+id/cadastrar"
+        android:layout_toEndOf="@+id/cadastrar"
+        android:onClick="abreTelaCategoria" />
+
 </RelativeLayout>

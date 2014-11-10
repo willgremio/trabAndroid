@@ -41,6 +41,7 @@ public class NovoImovel extends Activity {
         spinner2.setAdapter(dataAdapter);
     }
 
+
     public void buscarCategorias() {
         SQLiteDatabase db = this.odb.getReadableDatabase();
         String[] projection = {
@@ -88,7 +89,7 @@ public class NovoImovel extends Activity {
         EditText editCidade = (EditText) findViewById(R.id.editCidade);
         EditText editValor = (EditText) findViewById(R.id.editValor);
         Spinner SpinnerTipo_neg = (Spinner) findViewById(R.id.SpinnerTipo_neg);
-        /*Spinner SpinnerCategoria = (Spinner) findViewById(R.id.SpinnerCategoria);*/
+        Spinner SpinnerCategoria = (Spinner) findViewById(R.id.SpinnerCategoria);
 
         String titulo = editTitulo.getText().toString();
         String logradouro = editLogradouro.getText().toString();
@@ -97,7 +98,7 @@ public class NovoImovel extends Activity {
         String cidade = editCidade.getText().toString();
         String valor = editValor.getText().toString();
         String tipo = SpinnerTipo_neg.toString();
-        /*String categoria = SpinnerCategoria.toString();*/
+        int categoria = SpinnerCategoria.getSelectedItemPosition() + 1;
         try {
             imovel.put(ImovelContract.Imovel.TITULO, titulo);
             imovel.put(ImovelContract.Imovel.LOGRADOURO, logradouro);
@@ -105,6 +106,7 @@ public class NovoImovel extends Activity {
             imovel.put(ImovelContract.Imovel.BAIRRO, bairro);
             imovel.put(ImovelContract.Imovel.CIDADE, cidade);
             imovel.put(ImovelContract.Imovel.VALOR, valor);
+            imovel.put(ImovelContract.Imovel.CATEGORIA_ID, categoria);
 
             long newEnergiaId = db.insert(ImovelContract.Imovel.TABLE_NAME, null, imovel);
             db.close();
@@ -115,6 +117,7 @@ public class NovoImovel extends Activity {
         } catch(Exception ex) {
             ex.printStackTrace();
         }
+
     }
 
 

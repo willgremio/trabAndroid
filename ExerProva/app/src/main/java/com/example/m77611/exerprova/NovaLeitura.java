@@ -31,18 +31,24 @@ public class NovaLeitura extends Activity {
         EditText rua_endereco = (EditText) findViewById(R.id.rua_endereco);
         EditText campo_numero = (EditText) findViewById(R.id.numero);
         EditText campo_kwh = (EditText) findViewById(R.id.kwh);
+
         int id_cliente = Integer.parseInt(campo_cliente.getText().toString());
         String end = rua_endereco.getText().toString();
         int num = Integer.parseInt(campo_numero.getText().toString());
         int kwh = Integer.parseInt(campo_kwh.getText().toString());
+
         try {
             energia.put(EnergiaContract.Energia.COD_CLI, id_cliente);
             energia.put(EnergiaContract.Energia.RUA, end);
             energia.put(EnergiaContract.Energia.NUMERO, num);
             energia.put(EnergiaContract.Energia.KWH, kwh);
+
             long newEnergiaId = db.insert(EnergiaContract.Energia.TABLE_NAME, null, energia);
+
             Toast.makeText(getApplicationContext(), "Cadastro realizado com sucesso!", Toast.LENGTH_LONG).show();
+
             Intent it = new Intent(getApplicationContext(), MyActivity.class);
+
             startActivity(it);
 
         } catch(Exception ex) {

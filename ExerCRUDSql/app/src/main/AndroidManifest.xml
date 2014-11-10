@@ -24,6 +24,10 @@
             android:name=".ImovelDetalhes"
             android:label="@string/title_activity_imovel_detalhes" >
         </activity>
+        <activity
+            android:name=".ActivityNovaCateforia"
+            android:label="@string/title_activity_activity_nova_cateforia" >
+        </activity>
     </application>
 
 </manifest>

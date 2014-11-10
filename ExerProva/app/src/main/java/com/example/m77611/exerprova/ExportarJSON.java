@@ -93,7 +93,7 @@ public class ExportarJSON extends Activity {
         Uri uri = Uri.fromFile(myFile);
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("plain/text");
-        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"willian.serafini@gmail.com"});
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"gcalderaro93@gmail.com"});
         i.putExtra(Intent.EXTRA_SUBJECT, "Exer Revisão Prova!");
         i.putExtra(Intent.EXTRA_TEXT   , "Exportando banco para txt");
         i.putExtra(Intent.EXTRA_STREAM, uri);
