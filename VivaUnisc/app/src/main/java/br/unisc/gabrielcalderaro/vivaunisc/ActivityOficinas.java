@@ -1,5 +1,6 @@
 package br.unisc.gabrielcalderaro.vivaunisc;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -151,6 +152,15 @@ public class ActivityOficinas extends ActionBarActivity {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
+        }
+        if (id == R.id.action_map){
+            Intent it = new Intent(this, ActivityMap.class);
+            startActivity(it);
+        }
+
+        if (id == R.id.action_grafico){
+            Intent it = new Intent(this, ActivityGrafico.class);
+            startActivity(it);
         }
         return super.onOptionsItemSelected(item);
     }

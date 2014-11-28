@@ -14,6 +14,7 @@
     <string name="error_valEmail">Email obrigatório!</string>
     <string name="error_valCidade">Cidade deve estar no padrão autocomple ou não preencher! (ex: "Canoas - Rio Grande do Sul, Brasil"</string>
     <string name="erro_valCharEmail">Caracteres inválidos o email</string>
+
     <color name="black">#000000</color>
 
     <!-- Cadastro -->
@@ -44,8 +45,8 @@
     <string name="oficinas_txtViewSelectOficinas">Oficinas - Selecione uma Oficina</string>
     <string name="oficinas_ButtonParticipar">Participar</string>
     <string name="oficinas_ButtonInformacao">Informações</string>
-
-
-
+    <string name="title_activity_activity_map">ActivityMap</string>
+    <string name="title_activity_activity_grafico">ActivityGrafico</string>
+    <string name="title_activity_show_web_chart">ShowWebChartActivity</string>
 
 </resources>
