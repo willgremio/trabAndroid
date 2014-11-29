@@ -1,5 +1,6 @@
 package br.unisc.gabrielcalderaro.vivaunisc;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -32,6 +33,16 @@ public class ActivityInicio extends ActionBarActivity {
 
     public void listarOficinas(View v) {
         Intent it = new Intent(this, ActivityOficinas.class);
+        startActivity(it);
+    }
+
+    public void mostrarMapa(View v) {
+        Intent it = new Intent(this, ActivityMap.class);
+        startActivity(it);
+    }
+
+    public void mostrarGraficoPizza(View v) {
+        Intent it = new Intent(this, ActivityGrafico.class);
         startActivity(it);
     }
 
