@@ -6,11 +6,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +45,7 @@ public class ActivityGrafico extends ActionBarActivity {
         Intent int2 = getIntent();
         id.setText(int2.getStringExtra("id_oficina")); // Yo
 
-        WebView webview = (WebView) findViewById(R.id.webView1);
+        WebView webview = (WebView) findViewById(R.id.web);
         String content = "<html>"
                 + "  <head>"
                 + "    <script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script>"
@@ -50,7 +58,7 @@ public class ActivityGrafico extends ActionBarActivity {
                 + "        var data = new google.visualization.DataTable();"
                 + "          data.addColumn('string', 'Cidade')"
                 + "          data.addColumn('number', 'Estudante');"
-                + "          data.addRows([["+list.get(0).toString()+","+list.get(1).toString+"]]);"
+                + "          data.addRows([["+list.get(0).toString()+","+list.get(1).toString()+"]]);"
                 + "          var options = {'title':'Estudantes por região',"
                 + "                         'width':400,"
                 + "                         'height':300};"
@@ -78,7 +86,7 @@ public class ActivityGrafico extends ActionBarActivity {
     }
 
 
-    }
+
 
 
     @Override
