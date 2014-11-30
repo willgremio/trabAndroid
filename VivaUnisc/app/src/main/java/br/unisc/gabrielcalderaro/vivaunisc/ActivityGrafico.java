@@ -1,69 +1,83 @@
 package br.unisc.gabrielcalderaro.vivaunisc;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
-import android.content.Intent;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import DB.OficinaContract;
+import DB.OficinaDBHelper;
 
 
 public class ActivityGrafico extends ActionBarActivity {
 
-    EditText num1, num2, num3, num4, num5;
-    Button btnShow;
+    OficinaDBHelper odb = new OficinaDBHelper(this);
+    final ArrayList<String> list = new ArrayList<String>();
+    TextView id = (TextView) findViewById(R.id.id_oficina);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_grafico);
 
-        num1 = (EditText)findViewById(R.id.num1);
-        num2 = (EditText)findViewById(R.id.num2);
-        num3 = (EditText)findViewById(R.id.num3);
-        num4 = (EditText)findViewById(R.id.num4);
-        num5 = (EditText)findViewById(R.id.num5);
-        btnShow = (Button)findViewById(R.id.show);
+        Intent int2 = getIntent();
+        id.setText(int2.getStringExtra("id_oficina"));
 
-        btnShow.setOnClickListener(btnShowOnClickListener);
+        WebView webview = (WebView) findViewById(R.id.webView1);
+        String content = "<html>"
+                + "  <head>"
+                + "    <script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script>"
+                + "    <script type=\"text/javascript\">"
 
+                + "      google.load('visualization', '1.0', {'packages':['corechart']});"
+                + "      google.setOnLoadCallback(drawChart);"
+
+                + "      function drawChart() {"
+                + "        var data = new google.visualization.DataTable();"
+                + "          data.addColumn('string', 'Cidade')"
+                + "          data.addColumn('number', 'Estudante');"
+                + "          data.addRows([["+list.get(0).toString()+","+list.get(1).toString+"]]);"
+                + "          var options = {'title':'Estudantes por região',"
+                + "                         'width':400,"
+                + "                         'height':300};"
+                + "        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));"
+                + "        chart.draw(data, options);"
+                + "        }"
+                + "        };"
+                + "        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));"
+                + "        chart.draw(data, options);"
+                + "      }"
+                + "    </script>"
+                + "  </head>"
+
+                + "  <body>"
+                + "    <div id=\"chart_div\"></div>"
+                + "  </body>" + "</html>";
+
+        setEstudantesBanco();
+        buscarTodosEstudantes();
+
+        WebSettings webSettings = webview.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webview.requestFocusFromTouch();
+        webview.loadDataWithBaseURL( "file:///android_asset/", content, "text/html", "utf-8", null );
     }
 
 
-    OnClickListener btnShowOnClickListener =
-            new OnClickListener(){
-
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(
-                            ActivityGrafico.this,
-                            ShowWebChartActivity.class);
-
-                    intent.putExtra("NUM1", getNum(num1));
-                    intent.putExtra("NUM2", getNum(num2));
-                    intent.putExtra("NUM3", getNum(num3));
-                    intent.putExtra("NUM4", getNum(num4));
-                    intent.putExtra("NUM5", getNum(num5));
-
-                    startActivity(intent);
-                }
-
-            };
-
-    private int getNum(EditText editText){
-
-        int num = 0;
-
-        String stringNum = editText.getText().toString();
-        if(!stringNum.equals("")){
-            num = Integer.valueOf(stringNum);
-        }
-
-        return (num);
     }
 
 
@@ -84,5 +98,70 @@ public class ActivityGrafico extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setEstudantesBanco() {
+        String url = "http://vivaunisc.jossandro.com/estudante";
+        final SQLiteDatabase db = this.odb.getWritableDatabase();
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONArray arrJSON = null;
+                        try {
+                            arrJSON = response.getJSONArray("estudantes");
+
+                            for (int i = 0; i < arrJSON.length(); i++) {
+                                JSONObject jsonKeyValue = arrJSON.getJSONObject(i);
+                                ContentValues estudante = new ContentValues();
+                                estudante.put(OficinaContract.Estudante.ID_OFICINA, jsonKeyValue.getString("id_oficina"));
+                                estudante.put(OficinaContract.Estudante.NOME, jsonKeyValue.getString("nome"));
+                                estudante.put(OficinaContract.Estudante.EMAIL, jsonKeyValue.getString("email"));
+                                estudante.put(OficinaContract.Estudante.TELEFONE, jsonKeyValue.getString("telefone"));
+                                estudante.put(OficinaContract.Estudante.CIDADE, jsonKeyValue.getString("cidade"));
+                                long newEstudanteId = db.insert(OficinaContract.Estudante.TABLE_NAME, null, estudante);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {}
+                });
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        queue.add(jsObjRequest);
+    }
+
+
+    public void buscarTodosEstudantes() {
+        final SQLiteDatabase db = this.odb.getReadableDatabase();
+        String id_oficina = String.valueOf(id);
+
+        String selection = OficinaContract.Estudante.ID_OFICINA + " = ?";
+        String[] projection = {"count("+OficinaContract.Estudante._ID+")",OficinaContract.Estudante.CIDADE};
+        String[] selectionArgs = {id_oficina};
+        String group = OficinaContract.Estudante.ID_OFICINA;
+
+        Cursor c = db.query(
+                OficinaContract.Estudante.TABLE_NAME,      // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                group,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+
+        if (c.moveToFirst()) {
+            do {
+
+                list.add(c.getString(0));
+
+            } while (c.moveToNext());
+        }
     }
 }
