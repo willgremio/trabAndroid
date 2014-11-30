@@ -35,7 +35,7 @@ public class ActivityGrafico extends ActionBarActivity {
         setContentView(R.layout.activity_activity_grafico);
 
         Intent int2 = getIntent();
-        id.setText(int2.getStringExtra("id_oficina"));
+        id.setText(int2.getStringExtra("id_oficina")); // Yo
 
         WebView webview = (WebView) findViewById(R.id.webView1);
         String content = "<html>"
