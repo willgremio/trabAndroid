@@ -48,5 +48,6 @@
     <string name="title_activity_activity_map">ActivityMap</string>
     <string name="title_activity_activity_grafico">ActivityGrafico</string>
     <string name="title_activity_show_web_chart">ShowWebChartActivity</string>
+    <string name="title_activity_pie_char">PieChar</string>
 
 </resources>

@@ -1,6 +1,5 @@
 package br.unisc.gabrielcalderaro.vivaunisc;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -22,6 +21,8 @@ import java.util.ArrayList;
 
 import DB.OficinaContract;
 import DB.OficinaDBHelper;
+import teste.ActivityGeraGrafico;
+import teste.PieChar;
 
 
 public class ActivityOficinas extends ActionBarActivity {
@@ -144,7 +145,7 @@ public class ActivityOficinas extends ActionBarActivity {
 
     public void telaGrafico(View v) {
         TextView id_oficina = (TextView) findViewById(R.id.id_oficina);
-        Intent it = new Intent(this,ActivityGrafico.class);
+        Intent it = new Intent(this, PieChar.class);
         it.putExtra("id_oficina", id_oficina.getText().toString());
         startActivity(it);
     }
