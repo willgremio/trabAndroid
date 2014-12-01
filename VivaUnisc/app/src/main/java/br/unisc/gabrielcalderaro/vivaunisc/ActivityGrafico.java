@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
@@ -102,14 +103,18 @@ public class ActivityGrafico extends ActionBarActivity {
                 "      data.addColumn('number', 'VALUE');\n" +
                 "      data.addRows([\n";
 
+        int i = 1;
                 if (c.moveToFirst()) {
                     do {
-                        String nomeCidade = c.getString(1);
+                        String nomeCidade = c.getString(1).trim();
                         if(nomeCidade.equals("") || nomeCidade == "") {
-                            nomeCidade = "Cidade não Informada";
+                            nomeCidade = "Cidade não Informada" + i;
                         }
 
+                        Log.d("RQ", "cidade:: " + nomeCidade);
+                        Log.d("RQ", "num:: " + c.getString(0));
                         summary += "['"+nomeCidade+"', "+c.getString(0)+"], \n";
+                        i++;
 
                     } while (c.moveToNext());
                 }
