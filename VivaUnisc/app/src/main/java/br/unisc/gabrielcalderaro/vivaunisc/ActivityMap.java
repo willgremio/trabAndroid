@@ -57,7 +57,7 @@ public class ActivityMap extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        esvaziarTableEstudantes();
+        //esvaziarTableEstudantes();
 
         setContentView(R.layout.activity_activity_map);
         setEstudantesBanco();
