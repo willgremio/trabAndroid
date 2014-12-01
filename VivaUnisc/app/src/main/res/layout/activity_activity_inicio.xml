@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/inicio_txtViewBoasVindas"
-        android:id="@+id/textView"
+        android:id="@+id/oficina"
         android:layout_marginTop="137dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -35,7 +35,7 @@
         android:id="@+id/button"
         android:onClick="listarOficinas"
         android:layout_marginTop="44dp"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/oficina"
         android:layout_centerHorizontal="true" />
 
     <Button

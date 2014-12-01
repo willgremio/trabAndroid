@@ -1,5 +1,6 @@
 package br.unisc.gabrielcalderaro.vivaunisc;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,15 +14,26 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.Volley;
+
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import DB.OficinaContract;
 import DB.OficinaDBHelper;
-import teste.PieChar;
 
 
 public class ActivityOficinas extends ActionBarActivity {
@@ -31,13 +43,51 @@ public class ActivityOficinas extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_oficinas);
+        setEstudantesBanco();
         buscarTodasOficinas();
+    }
+
+    public void setEstudantesBanco() {
+        String url = "http://vivaunisc.jossandro.com/estudantes";
+        final SQLiteDatabase db = this.odb.getWritableDatabase();
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONArray arrJSON = null;
+                        try {
+                            arrJSON = response.getJSONArray("estudantes");
+
+                            for (int i = 0; i < arrJSON.length(); i++) {
+                                JSONObject jsonKeyValue = arrJSON.getJSONObject(i);
+                                ContentValues estudante = new ContentValues();
+                                estudante.put(OficinaContract.Estudante.ID_ESTUDANTE, jsonKeyValue.getString("id_estudante"));
+                                estudante.put(OficinaContract.Estudante.ID_OFICINA, jsonKeyValue.getString("id_oficina"));
+                                estudante.put(OficinaContract.Estudante.NOME, jsonKeyValue.getString("nome"));
+                                estudante.put(OficinaContract.Estudante.EMAIL, jsonKeyValue.getString("email"));
+                                estudante.put(OficinaContract.Estudante.TELEFONE, jsonKeyValue.getString("telefone"));
+                                estudante.put(OficinaContract.Estudante.CIDADE, jsonKeyValue.getString("cidade"));
+                                long newEstudanteId = db.insert(OficinaContract.Estudante.TABLE_NAME, null, estudante);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {}
+                });
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        queue.add(jsObjRequest);
     }
 
     public void buscarTodasOficinas() {
         final SQLiteDatabase db = this.odb.getReadableDatabase();
 
         String[] projection = {
+                OficinaContract.Oficina.ID_OFICINA,
                 OficinaContract.Oficina.TITULO
         };
 
@@ -58,7 +108,7 @@ public class ActivityOficinas extends ActionBarActivity {
         if (c.moveToFirst()) {
             do {
 
-                list.add(c.getString(0));
+                list.add(c.getString(0) + "-" + c.getString(1));
 
             } while (c.moveToNext());
         }
@@ -69,7 +119,8 @@ public class ActivityOficinas extends ActionBarActivity {
         spinner2.setAdapter(dataAdapter);
         spinner2.setOnItemSelectedListener (new OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> arg0, View selectedItemView, int pos, long id) {
-                buscaOficinaClicada(list.get(pos).toString());
+                String[] separated = list.get(pos).toString().split("-");
+                buscaOficinaClicada(separated[0]);
             }
 
             @Override
@@ -78,17 +129,18 @@ public class ActivityOficinas extends ActionBarActivity {
         });
     }
 
-    public void buscaOficinaClicada (String string) {
+    public void buscaOficinaClicada (String id) {
         SQLiteDatabase db = this.odb.getReadableDatabase();
 
         String[] projection = {
                 OficinaContract.Oficina.DATA_HORA,
                 OficinaContract.Oficina.ID_OFICINA,
-                OficinaContract.Oficina.IMAGEM
+                OficinaContract.Oficina.IMAGEM,
+                OficinaContract.Oficina.TITULO,
         };
 
-        String selection = OficinaContract.Oficina.TITULO + " = ?";
-        String[] selectionArgs = { string };
+        String selection = OficinaContract.Oficina.ID_OFICINA + " = ?";
+        String[] selectionArgs = { id };
         String group = OficinaContract.Oficina.ID_OFICINA;
         Cursor c = db.query(
                 OficinaContract.Oficina.TABLE_NAME,      // The table to query
@@ -110,7 +162,7 @@ public class ActivityOficinas extends ActionBarActivity {
         ConverterDataHora cdh = new ConverterDataHora();
         dataBr = cdh.retornaData(c.getString(0));
 
-        tit.setText(string);
+        tit.setText(c.getString(3));
         data.setText(dataBr);
         id_oficina.setText(c.getString(1));
         getImage(c.getString(2));
@@ -144,8 +196,11 @@ public class ActivityOficinas extends ActionBarActivity {
 
     public void telaGrafico(View v) {
         TextView id_oficina = (TextView) findViewById(R.id.id_oficina);
+        TextView nome_oficina = (TextView) findViewById(R.id.titulo);
         Intent it = new Intent(this, ActivityGrafico.class);
         it.putExtra("id_oficina", id_oficina.getText().toString());
+        it.putExtra("nome_oficina", nome_oficina.getText().toString());
+
         startActivity(it);
     }
 

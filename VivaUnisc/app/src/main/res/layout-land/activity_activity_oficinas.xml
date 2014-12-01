@@ -1,11 +1,16 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".ActivityOficinas"
     android:background="#0099CC" >
 
@@ -13,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Oficinas - Selecione uma Oficina"
+        android:text="@string/oficinas_txtViewSelectOficinas"
         android:id="@+id/textViewOficinas"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -32,9 +37,9 @@
         android:id="@+id/myNetworkImageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/textViewOficinas"
-        android:layout_toStartOf="@+id/textViewOficinas" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/spinnerOficinas"
+        android:layout_marginBottom="20px"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,10 +47,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="..."
         android:id="@+id/titulo"
-        android:layout_toStartOf="@+id/id_oficina"
-        android:layout_below="@+id/spinnerOficinas"
-        android:layout_alignLeft="@+id/textViewOficinas"
-        android:layout_alignStart="@+id/textViewOficinas" />
+        android:layout_below="@+id/myNetworkImageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15px" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -54,28 +58,36 @@
         android:text="..."
         android:id="@+id/data_hora"
         android:layout_below="@+id/titulo"
-        android:layout_alignLeft="@+id/titulo"
-        android:layout_alignStart="@+id/titulo" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20px"
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Participar"
+        android:text="@string/oficinas_ButtonParticipar"
         android:id="@+id/buttonParticipar"
         android:onClick="telaCadastro"
         android:layout_below="@+id/data_hora"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_centerHorizontal="true" />
+
+    <Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/oficinas_ButtonInformacao"
+    android:id="@+id/buttonInformacoes"
+    android:onClick="telaInformacoes"
+    android:layout_below="@+id/buttonParticipar"
+    android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Informações"
-        android:id="@+id/buttonInformacoes"
-        android:onClick="telaInformacoes"
-        android:layout_below="@+id/buttonParticipar"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:text="Gerar Gráfico"
+        android:id="@+id/buttonGrafico"
+        android:onClick="telaGrafico"
+        android:layout_below="@+id/buttonInformacoes"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -89,3 +101,4 @@
 
 
 </RelativeLayout>
+</ScrollView>

@@ -12,20 +12,6 @@ import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import DB.OficinaContract;
 import DB.OficinaDBHelper;
@@ -34,20 +20,18 @@ import DB.OficinaDBHelper;
 public class ActivityGrafico extends ActionBarActivity {
 
     OficinaDBHelper odb = new OficinaDBHelper(this);
-    final ArrayList<String> list = new ArrayList<String>();
-    final ArrayList<String> listcidade = new ArrayList<String>();
-    //TextView id = (TextView) findViewById(R.id.id_oficina);
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_grafico);
-
-        setEstudantesBanco();
+        TextView oficina = (TextView) findViewById(R.id.oficina);
 
         Intent int2 = getIntent();
         String id_oficina = (int2.getStringExtra("id_oficina"));
+        String nome_oficina = (int2.getStringExtra("nome_oficina"));
+
+        oficina.setText(nome_oficina);
 
         buscarTodosEstudantes(id_oficina);
     }
@@ -71,43 +55,6 @@ public class ActivityGrafico extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public void setEstudantesBanco() {
-        String url = "http://vivaunisc.jossandro.com/estudante";
-        final SQLiteDatabase db = this.odb.getWritableDatabase();
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        JSONArray arrJSON = null;
-                        try {
-                            arrJSON = response.getJSONArray("estudantes");
-
-                            for (int i = 0; i < arrJSON.length(); i++) {
-                                JSONObject jsonKeyValue = arrJSON.getJSONObject(i);
-                                ContentValues estudante = new ContentValues();
-                                estudante.put(OficinaContract.Estudante.ID_ESTUDANTE, jsonKeyValue.getString("id_estudante"));
-                                estudante.put(OficinaContract.Estudante.ID_OFICINA, jsonKeyValue.getString("id_oficina"));
-                                estudante.put(OficinaContract.Estudante.NOME, jsonKeyValue.getString("nome"));
-                                estudante.put(OficinaContract.Estudante.EMAIL, jsonKeyValue.getString("email"));
-                                estudante.put(OficinaContract.Estudante.TELEFONE, jsonKeyValue.getString("telefone"));
-                                estudante.put(OficinaContract.Estudante.CIDADE, jsonKeyValue.getString("cidade"));
-                                long newEstudanteId = db.insert(OficinaContract.Estudante.TABLE_NAME, null, estudante);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {}
-                });
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        queue.add(jsObjRequest);
-    }
-
 
     public void buscarTodosEstudantes(String id_oficina) {
         final SQLiteDatabase db = this.odb.getReadableDatabase();
@@ -171,7 +118,7 @@ public class ActivityGrafico extends ActionBarActivity {
                 "\n" +
                 "      // Set chart options\n" +
                 "      var options = {\n" +
-                "                     'width':600,\n" +
+                "                     'width':800,\n" +
                 "                     'height':600};\n" +
                 "\n" +
                 "      // Instantiate and draw our chart, passing in some options.\n" +
@@ -183,7 +130,7 @@ public class ActivityGrafico extends ActionBarActivity {
                 "\n" +
                 "<body>\n" +
                 "<!--Div that will hold the pie chart-->\n" +
-                "<div id=\"chart_div\" style=\"width:600; height:600\"></div>\n" +
+                "<div id=\"chart_div\" style=\"width:800; height:600\"></div>\n" +
                 "</body>\n" +
                 "</html>\n";
 
