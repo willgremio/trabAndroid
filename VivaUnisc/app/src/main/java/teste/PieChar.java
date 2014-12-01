@@ -65,10 +65,13 @@ public class PieChar extends Activity {
         final String id = int2.getStringExtra("id_oficina");
 
         String selection = OficinaContract.Estudante.ID_OFICINA + " = ?";
+
         String[] projection = {
                 "count(DISTINCT " + OficinaContract.Estudante.ID_ESTUDANTE + ")",
                 OficinaContract.Estudante.CIDADE
         };
+
+
         String[] selectionArgs = {id};
         String group = OficinaContract.Estudante.CIDADE;
 
@@ -81,10 +84,13 @@ public class PieChar extends Activity {
                 null,                                     // don't filter by row groups
                 null                                 // The sort order
         );
+
+System.out.println("ENTREEEEEEEEEEEEI :");
 //add numero de inscritos por cidade a uma lista
         if (c.moveToFirst()) {
             do {
                 System.out.println("AQUUUUUUUUUUUUUUUUUUUUI :" + c.getString(0));
+
                 listNum.add(c.getString(0));
             } while (c.moveToNext());
         }
@@ -94,6 +100,14 @@ public class PieChar extends Activity {
 
                 listCidade.add(c.getString(0));
             } while (c.moveToNext());
+        }
+
+        System.out.println("SAAAAAAAAAAAAAAAAAAAAAI");
+
+
+        for (int y = 0; y < 4; y++){
+            listNum.add("20");
+            listCidade.add("cidade " + y + 1);
         }
 
 //Gráfico
@@ -109,11 +123,11 @@ public class PieChar extends Activity {
         int i = 0;
         double VALUES;
 
-        for (String listaCidade : listNum){
+        for (String listaGrafico : listCidade){
 
             VALUES = Double.parseDouble(listNum.get(i));
 
-            mSeries.add(listaCidade + " " + VALUES, VALUES);
+            mSeries.add(listaGrafico + " " + VALUES, VALUES);
             SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
             renderer.setColor(COLORS[(mSeries.getItemCount() - 1) % COLORS.length]);
             mRenderer.addSeriesRenderer(renderer);
