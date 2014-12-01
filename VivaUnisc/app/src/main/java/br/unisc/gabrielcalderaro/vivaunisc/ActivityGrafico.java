@@ -51,46 +51,12 @@ public class ActivityGrafico extends ActionBarActivity {
 
         Toast.makeText(getApplicationContext(), id_oficina, Toast.LENGTH_LONG).show();
         /*
-        buscarTodosEstudantes(id_oficina);
-
-
-
-        String content = "<html>"
-                + "  <head>"
-                + "    <script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script>"
-                + "    <script type=\"text/javascript\">"
-
-                + "      google.load('visualization', '1.0', {'packages':['corechart']});"
-                + "      google.setOnLoadCallback(drawChart);"
-
-                + "      function drawChart() {"
-                + "        var data = new google.visualization.DataTable();"
-                + "          data.addColumn('string', 'Cidade')"
-                + "          data.addColumn('number', 'Estudante');"
-                + "          data.addRows([["+list.get(0).toString()+","+list.get(1).toString()+"]]);"
-                + "          var options = {'title':'Estudantes por região',"
-                + "                         'width':400,"
-                + "                         'height':300};"
-                + "        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));"
-                + "        chart.draw(data, options);"
-                + "        }"
-                + "        };"
-                + "        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));"
-                + "        chart.draw(data, options);"
-                + "      }"
-                + "    </script>"
-                + "  </head>"
-
-                + "  <body>"
-                + "    <div id=\"chart_div\"></div>"
-                + "  </body>" + "</html>";
-
-
+        buscarTodosEstudantes(id_oficina); */
 
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webview.requestFocusFromTouch();
-        webview.loadDataWithBaseURL( "file:///android_asset/", content, "text/html", "utf-8", null );*/
+        webview.loadUrl("file:///android_asset/chart.html");
     }
 
 
