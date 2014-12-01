@@ -131,28 +131,16 @@ public class ActivityMap extends ActionBarActivity {
                 null                                 // The sort order
         );
 
-        /*final ArrayList<String> list = new ArrayList<String>();
-        int cont = 0;*/
-
         if (c.moveToFirst()) {
             do {
-                //list.add(c.getString(1));
                 getLatLongFromAddress(c.getString(1), Integer.parseInt(c.getString(0)));
-                //cont = cont + 1;
             } while (c.moveToNext());
         }
-       // Log.d("RQ", "cont: ! " + cont);
-
-        /*Spinner spinner2 = (Spinner) findViewById(R.id.spinnercidades);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner2.setAdapter(dataAdapter);*/
 
     }
 
     public void getLatLongFromAddress(final String cidade, final int num) {
         if (!cidade.equals("") || cidade != "") {
-            //String query = cidade.replace(" ", "%20");
             String query = URLEncoder.encode(cidade);
             String url = "http://maps.google.com/maps/api/geocode/json?address=" +
                     query + "&sensor=false";
@@ -224,9 +212,6 @@ public class ActivityMap extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
