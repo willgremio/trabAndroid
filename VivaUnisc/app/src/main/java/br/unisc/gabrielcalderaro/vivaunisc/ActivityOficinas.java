@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 import DB.OficinaContract;
 import DB.OficinaDBHelper;
-import teste.ActivityGeraGrafico;
 import teste.PieChar;
 
 
@@ -145,7 +144,7 @@ public class ActivityOficinas extends ActionBarActivity {
 
     public void telaGrafico(View v) {
         TextView id_oficina = (TextView) findViewById(R.id.id_oficina);
-        Intent it = new Intent(this, PieChar.class);
+        Intent it = new Intent(this, ActivityGrafico.class);
         it.putExtra("id_oficina", id_oficina.getText().toString());
         startActivity(it);
     }

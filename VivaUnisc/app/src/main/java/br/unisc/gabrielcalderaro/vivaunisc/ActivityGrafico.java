@@ -35,6 +35,7 @@ public class ActivityGrafico extends ActionBarActivity {
 
     OficinaDBHelper odb = new OficinaDBHelper(this);
     final ArrayList<String> list = new ArrayList<String>();
+    final ArrayList<String> listcidade = new ArrayList<String>();
     //TextView id = (TextView) findViewById(R.id.id_oficina);
 
 
@@ -43,20 +44,12 @@ public class ActivityGrafico extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_grafico);
 
-        WebView webview = (WebView) findViewById(R.id.web);
         setEstudantesBanco();
 
         Intent int2 = getIntent();
         String id_oficina = (int2.getStringExtra("id_oficina"));
 
-        Toast.makeText(getApplicationContext(), id_oficina, Toast.LENGTH_LONG).show();
-        /*
-        buscarTodosEstudantes(id_oficina); */
-
-        WebSettings webSettings = webview.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webview.requestFocusFromTouch();
-        webview.loadUrl("file:///android_asset/chart.html");
+        buscarTodosEstudantes(id_oficina);
     }
 
 
@@ -125,7 +118,7 @@ public class ActivityGrafico extends ActionBarActivity {
                 OficinaContract.Estudante.CIDADE
         };
         String[] selectionArgs = {id_oficina};
-        String group = OficinaContract.Estudante.ID_OFICINA;
+        String group = OficinaContract.Estudante.CIDADE;
 
         Cursor c = db.query(
                 OficinaContract.Estudante.TABLE_NAME,      // The table to query
@@ -138,12 +131,67 @@ public class ActivityGrafico extends ActionBarActivity {
         );
 
 
-        if (c.moveToFirst()) {
-            do {
+        String summary = "<html>\n" +
+                "<head>\n" +
+                "    <!--Load the AJAX API-->\n" +
+                "    <script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script>\n" +
+                "    <script type=\"text/javascript\">\n" +
+                "    \n" +
+                "      // Load the Visualization API and the piechart package.\n" +
+                "      google.load('visualization', '1.0', {'packages':['corechart']});\n" +
+                "      \n" +
+                "      // Set a callback to run when the Google Visualization API is loaded.\n" +
+                "      google.setOnLoadCallback(drawChart);\n" +
+                "\n" +
+                "\n" +
+                "      // Callback that creates and populates a data table, \n" +
+                "      // instantiates the pie chart, passes in the data and\n" +
+                "      // draws it.\n" +
+                "      function drawChart() {\n" +
+                "\n" +
+                "      // Create the data table.\n" +
+                "      var data = new google.visualization.DataTable();\n" +
+                "      data.addColumn('string', 'CIDADE');\n" +
+                "      data.addColumn('number', 'VALUE');\n" +
+                "      data.addRows([\n";
 
-                list.add(c.getString(0));
+                if (c.moveToFirst()) {
+                    do {
+                        String nomeCidade = c.getString(1);
+                        if(nomeCidade.equals("") || nomeCidade == "") {
+                            nomeCidade = "Cidade não Informada";
+                        }
 
-            } while (c.moveToNext());
-        }
+                        summary += "['"+nomeCidade+"', "+c.getString(0)+"], \n";
+
+                    } while (c.moveToNext());
+                }
+
+        summary += "      ]);\n" +
+                "\n" +
+                "      // Set chart options\n" +
+                "      var options = {\n" +
+                "                     'width':600,\n" +
+                "                     'height':600};\n" +
+                "\n" +
+                "      // Instantiate and draw our chart, passing in some options.\n" +
+                "      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));\n" +
+                "      chart.draw(data, options);\n" +
+                "    }\n" +
+                "    </script>\n" +
+                "</head>\n" +
+                "\n" +
+                "<body>\n" +
+                "<!--Div that will hold the pie chart-->\n" +
+                "<div id=\"chart_div\" style=\"width:600; height:600\"></div>\n" +
+                "</body>\n" +
+                "</html>\n";
+
+
+        WebView webview = (WebView) findViewById(R.id.web);
+        WebSettings webSettings = webview.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webview.requestFocusFromTouch();
+        webview.loadDataWithBaseURL(null, summary, "text/html", "utf-8", null );
     }
 }
