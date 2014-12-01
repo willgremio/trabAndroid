@@ -40,7 +40,7 @@ public class OficinaDBHelper  extends SQLiteOpenHelper {
             "DROP TABLE IF EXISTS " + OficinaContract.Estudante.TABLE_NAME;
 
 
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "VivaUnisc.db";
 
     public OficinaDBHelper(Context context) {

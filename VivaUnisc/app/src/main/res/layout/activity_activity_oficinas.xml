@@ -67,12 +67,21 @@
         android:layout_centerHorizontal="true" />
 
     <Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/oficinas_ButtonInformacao"
+    android:id="@+id/buttonInformacoes"
+    android:onClick="telaInformacoes"
+    android:layout_below="@+id/buttonParticipar"
+    android:layout_centerHorizontal="true" />
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/oficinas_ButtonInformacao"
-        android:id="@+id/buttonInformacoes"
-        android:onClick="telaInformacoes"
-        android:layout_below="@+id/buttonParticipar"
+        android:text="Gerar Gráfico"
+        android:id="@+id/buttonGrafico"
+        android:onClick="telaGrafico"
+        android:layout_below="@+id/buttonInformacoes"
         android:layout_centerHorizontal="true" />
 
     <TextView

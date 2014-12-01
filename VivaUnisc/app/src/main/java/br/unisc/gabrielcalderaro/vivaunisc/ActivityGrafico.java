@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,7 +35,7 @@ public class ActivityGrafico extends ActionBarActivity {
 
     OficinaDBHelper odb = new OficinaDBHelper(this);
     final ArrayList<String> list = new ArrayList<String>();
-    TextView id = (TextView) findViewById(R.id.id_oficina);
+    //TextView id = (TextView) findViewById(R.id.id_oficina);
 
 
     @Override
@@ -42,10 +43,18 @@ public class ActivityGrafico extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_grafico);
 
-        Intent int2 = getIntent();
-        id.setText(int2.getStringExtra("id_oficina")); // Yo
-
         WebView webview = (WebView) findViewById(R.id.web);
+        setEstudantesBanco();
+
+        Intent int2 = getIntent();
+        String id_oficina = (int2.getStringExtra("id_oficina"));
+
+        Toast.makeText(getApplicationContext(), id_oficina, Toast.LENGTH_LONG).show();
+        /*
+        buscarTodosEstudantes(id_oficina);
+
+
+
         String content = "<html>"
                 + "  <head>"
                 + "    <script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script>"
@@ -76,17 +85,13 @@ public class ActivityGrafico extends ActionBarActivity {
                 + "    <div id=\"chart_div\"></div>"
                 + "  </body>" + "</html>";
 
-        setEstudantesBanco();
-        buscarTodosEstudantes();
+
 
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webview.requestFocusFromTouch();
-        webview.loadDataWithBaseURL( "file:///android_asset/", content, "text/html", "utf-8", null );
+        webview.loadDataWithBaseURL( "file:///android_asset/", content, "text/html", "utf-8", null );*/
     }
-
-
-
 
 
     @Override
@@ -144,9 +149,8 @@ public class ActivityGrafico extends ActionBarActivity {
     }
 
 
-    public void buscarTodosEstudantes() {
+    public void buscarTodosEstudantes(String id_oficina) {
         final SQLiteDatabase db = this.odb.getReadableDatabase();
-        String id_oficina = String.valueOf(id);
 
         String selection = OficinaContract.Estudante.ID_OFICINA + " = ?";
         String[] projection = {"count("+OficinaContract.Estudante._ID+")",OficinaContract.Estudante.CIDADE};

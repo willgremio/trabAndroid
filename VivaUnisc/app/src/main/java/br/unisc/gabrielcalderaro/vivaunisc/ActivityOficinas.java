@@ -141,6 +141,14 @@ public class ActivityOficinas extends ActionBarActivity {
         startActivity(it);
     }
 
+
+    public void telaGrafico(View v) {
+        TextView id_oficina = (TextView) findViewById(R.id.id_oficina);
+        Intent it = new Intent(this,ActivityGrafico.class);
+        it.putExtra("id_oficina", id_oficina.getText().toString());
+        startActivity(it);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_oficinas, menu);

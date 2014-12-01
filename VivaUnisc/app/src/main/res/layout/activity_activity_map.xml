@@ -20,14 +20,5 @@
             android:layout_height="320dp"
             class="com.google.android.gms.maps.MapFragment" />
 
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinnercidades"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="70px"/>
-
     </LinearLayout>
 </ScrollView>

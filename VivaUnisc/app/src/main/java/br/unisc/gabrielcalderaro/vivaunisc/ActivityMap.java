@@ -40,6 +40,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -55,7 +57,7 @@ public class ActivityMap extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //esvaziarTableEstudantes();
+        esvaziarTableEstudantes();
 
         setContentView(R.layout.activity_activity_map);
         setEstudantesBanco();
@@ -68,13 +70,8 @@ public class ActivityMap extends ActionBarActivity {
     }
 
     public void esvaziarTableEstudantes() {
-        try {
-            SQLiteDatabase db = this.odb.getReadableDatabase();
-            db.delete(OficinaContract.Estudante.TABLE_NAME, null, null);
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-        //db.execSQL("delete from " + OficinaContract.Estudante.TABLE_NAME);
+        SQLiteDatabase db = this.odb.getReadableDatabase();
+        db.execSQL("delete from " + OficinaContract.Estudante.TABLE_NAME + "where 1");
     }
 
     public void setEstudantesBanco() {
@@ -92,13 +89,12 @@ public class ActivityMap extends ActionBarActivity {
                             for (int i = 0; i < arrJSON.length(); i++) {
                                 JSONObject jsonKeyValue = arrJSON.getJSONObject(i);
                                 ContentValues estudante = new ContentValues();
-                                estudante.put(OficinaContract.Estudante._ID, jsonKeyValue.getString("id_estudante"));
                                 estudante.put(OficinaContract.Estudante.ID_OFICINA, jsonKeyValue.getString("id_oficina"));
                                 estudante.put(OficinaContract.Estudante.NOME, jsonKeyValue.getString("nome"));
                                 estudante.put(OficinaContract.Estudante.EMAIL, jsonKeyValue.getString("email"));
                                 estudante.put(OficinaContract.Estudante.TELEFONE, jsonKeyValue.getString("telefone"));
                                 estudante.put(OficinaContract.Estudante.CIDADE, jsonKeyValue.getString("cidade"));
-                                long newEstudanteId = db.insert(OficinaContract.Estudante.TABLE_NAME, null, estudante);
+                                db.insert(OficinaContract.Estudante.TABLE_NAME, null, estudante);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -135,26 +131,32 @@ public class ActivityMap extends ActionBarActivity {
                 null                                 // The sort order
         );
 
-        final ArrayList<String> list = new ArrayList<String>();
+        /*final ArrayList<String> list = new ArrayList<String>();
+        int cont = 0;*/
 
         if (c.moveToFirst()) {
             do {
+                //list.add(c.getString(1));
                 getLatLongFromAddress(c.getString(1), Integer.parseInt(c.getString(0)));
+                //cont = cont + 1;
             } while (c.moveToNext());
         }
+       // Log.d("RQ", "cont: ! " + cont);
 
-        Spinner spinner2 = (Spinner) findViewById(R.id.spinnercidades);
+        /*Spinner spinner2 = (Spinner) findViewById(R.id.spinnercidades);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner2.setAdapter(dataAdapter);
+        spinner2.setAdapter(dataAdapter);*/
 
     }
 
     public void getLatLongFromAddress(final String cidade, final int num) {
         if (!cidade.equals("") || cidade != "") {
-            String query = cidade.replace(" ", "%20");
+            //String query = cidade.replace(" ", "%20");
+            String query = URLEncoder.encode(cidade);
             String url = "http://maps.google.com/maps/api/geocode/json?address=" +
                     query + "&sensor=false";
+
             JsonObjectRequest jsObjRequest = new JsonObjectRequest
                     (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                         @Override

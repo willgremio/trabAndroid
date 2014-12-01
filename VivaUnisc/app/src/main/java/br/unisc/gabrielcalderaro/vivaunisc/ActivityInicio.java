@@ -41,11 +41,6 @@ public class ActivityInicio extends ActionBarActivity {
         startActivity(it);
     }
 
-    public void mostrarGraficoPizza(View v) {
-        Intent it = new Intent(this, ActivityGrafico.class);
-        startActivity(it);
-    }
-
     public void setOficinasBanco() {
         String url = "http://vivaunisc.jossandro.com/oficinas";
         final SQLiteDatabase db = this.odb.getWritableDatabase();
