@@ -106,8 +106,8 @@ public class ActivityGrafico extends ActionBarActivity {
         int i = 1;
                 if (c.moveToFirst()) {
                     do {
-                        String nomeCidade = c.getString(1).trim();
-                        if(nomeCidade.equals("") || nomeCidade == "") {
+                        String nomeCidade = c.getString(1);
+                        if(c.getString(1).trim().equals("") || c.getString(1).trim() == "") {
                             nomeCidade = "Cidade não Informada" + i;
                         }
 
