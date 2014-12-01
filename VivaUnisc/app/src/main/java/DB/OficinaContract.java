@@ -24,6 +24,7 @@ public final class OficinaContract {
 
     public final class Estudante implements BaseColumns{
         public final static String TABLE_NAME = "ESTUDANTE";
+        public final static String ID_ESTUDANTE = "id_estudante";
         public final static String ID_OFICINA = "id_oficina";
         public final static String NOME = "nome";
         public final static String EMAIL = "email";

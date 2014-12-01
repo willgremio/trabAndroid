@@ -57,7 +57,7 @@ public class ActivityMap extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //esvaziarTableEstudantes();
+        Toast.makeText(this, "Carregando pontos no mapa ...", Toast.LENGTH_LONG).show();
 
         setContentView(R.layout.activity_activity_map);
         setEstudantesBanco();
@@ -66,12 +66,6 @@ public class ActivityMap extends ActionBarActivity {
         map = mapFragment.getMap();
 
         buscaEstudantesBanco();
-
-    }
-
-    public void esvaziarTableEstudantes() {
-        SQLiteDatabase db = this.odb.getReadableDatabase();
-        db.execSQL("delete from " + OficinaContract.Estudante.TABLE_NAME + "where 1");
     }
 
     public void setEstudantesBanco() {
@@ -85,16 +79,17 @@ public class ActivityMap extends ActionBarActivity {
                         JSONArray arrJSON = null;
                         try {
                             arrJSON = response.getJSONArray("estudantes");
-
                             for (int i = 0; i < arrJSON.length(); i++) {
                                 JSONObject jsonKeyValue = arrJSON.getJSONObject(i);
                                 ContentValues estudante = new ContentValues();
+                                estudante.put(OficinaContract.Estudante.ID_ESTUDANTE, jsonKeyValue.getString("id_estudante"));
                                 estudante.put(OficinaContract.Estudante.ID_OFICINA, jsonKeyValue.getString("id_oficina"));
                                 estudante.put(OficinaContract.Estudante.NOME, jsonKeyValue.getString("nome"));
                                 estudante.put(OficinaContract.Estudante.EMAIL, jsonKeyValue.getString("email"));
                                 estudante.put(OficinaContract.Estudante.TELEFONE, jsonKeyValue.getString("telefone"));
                                 estudante.put(OficinaContract.Estudante.CIDADE, jsonKeyValue.getString("cidade"));
-                                db.insert(OficinaContract.Estudante.TABLE_NAME, null, estudante);
+                                long id = db.insert(OficinaContract.Estudante.TABLE_NAME, null, estudante);
+                                //Log.d("RQ", "id_estudante: " + id);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -115,7 +110,7 @@ public class ActivityMap extends ActionBarActivity {
         final SQLiteDatabase db = this.odb.getReadableDatabase();
 
         String[] projection = {
-                "count(" + OficinaContract.Estudante._ID + ")",
+                "count(DISTINCT " + OficinaContract.Estudante.ID_ESTUDANTE + ")",
                 OficinaContract.Estudante.CIDADE
         };
 
@@ -136,6 +131,8 @@ public class ActivityMap extends ActionBarActivity {
                 getLatLongFromAddress(c.getString(1), Integer.parseInt(c.getString(0)));
             } while (c.moveToNext());
         }
+
+        Toast.makeText(this, "Mapa atualizado!", Toast.LENGTH_LONG).show();
 
     }
 

@@ -93,6 +93,7 @@ public class ActivityGrafico extends ActionBarActivity {
                             for (int i = 0; i < arrJSON.length(); i++) {
                                 JSONObject jsonKeyValue = arrJSON.getJSONObject(i);
                                 ContentValues estudante = new ContentValues();
+                                estudante.put(OficinaContract.Estudante.ID_ESTUDANTE, jsonKeyValue.getString("id_estudante"));
                                 estudante.put(OficinaContract.Estudante.ID_OFICINA, jsonKeyValue.getString("id_oficina"));
                                 estudante.put(OficinaContract.Estudante.NOME, jsonKeyValue.getString("nome"));
                                 estudante.put(OficinaContract.Estudante.EMAIL, jsonKeyValue.getString("email"));
@@ -119,7 +120,10 @@ public class ActivityGrafico extends ActionBarActivity {
         final SQLiteDatabase db = this.odb.getReadableDatabase();
 
         String selection = OficinaContract.Estudante.ID_OFICINA + " = ?";
-        String[] projection = {"count("+OficinaContract.Estudante._ID+")",OficinaContract.Estudante.CIDADE};
+        String[] projection = {
+                "count(DISTINCT " + OficinaContract.Estudante.ID_ESTUDANTE + ")",
+                OficinaContract.Estudante.CIDADE
+        };
         String[] selectionArgs = {id_oficina};
         String group = OficinaContract.Estudante.ID_OFICINA;
 
