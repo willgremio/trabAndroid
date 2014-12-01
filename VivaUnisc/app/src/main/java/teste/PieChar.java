@@ -60,6 +60,8 @@ public class PieChar extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pie_char);
 
+        setEstudantesBanco();
+
 //Recebendo o Id de oficina
         Intent int2 = getIntent();
         final String id = int2.getStringExtra("id_oficina");
@@ -87,28 +89,18 @@ public class PieChar extends Activity {
 
 System.out.println("ENTREEEEEEEEEEEEI :");
 //add numero de inscritos por cidade a uma lista
+//add nomes de cidades da oficina a uma lista
         if (c.moveToFirst()) {
             do {
                 System.out.println("AQUUUUUUUUUUUUUUUUUUUUI :" + c.getString(0));
 
                 listNum.add(c.getString(0));
-            } while (c.moveToNext());
-        }
-//add nomes de cidades da oficina a uma lista
-        if (c.moveToFirst()) {
-            do {
+                listCidade.add(c.getString(1));
 
-                listCidade.add(c.getString(0));
             } while (c.moveToNext());
         }
 
         System.out.println("SAAAAAAAAAAAAAAAAAAAAAI");
-
-
-        for (int y = 0; y < 4; y++){
-            listNum.add("20");
-            listCidade.add("cidade " + y + 1);
-        }
 
 //Gráfico
         mRenderer.setApplyBackgroundColor(true);
@@ -123,11 +115,11 @@ System.out.println("ENTREEEEEEEEEEEEI :");
         int i = 0;
         double VALUES;
 
-        for (String listaGrafico : listCidade){
+        for (String listaGrafico : listNum){
 
             VALUES = Double.parseDouble(listNum.get(i));
 
-            mSeries.add(listaGrafico + " " + VALUES, VALUES);
+            mSeries.add(listaGrafico + " teste: " + VALUES, VALUES);
             SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
             renderer.setColor(COLORS[(mSeries.getItemCount() - 1) % COLORS.length]);
             mRenderer.addSeriesRenderer(renderer);
@@ -159,6 +151,7 @@ System.out.println("ENTREEEEEEEEEEEEI :");
                                 JSONObject jsonKeyValue = arrJSON.getJSONObject(i);
                                 ContentValues estudante = new ContentValues();
                                 estudante.put(OficinaContract.Estudante.ID_OFICINA, jsonKeyValue.getString("id_oficina"));
+                                estudante.put(OficinaContract.Estudante.ID_ESTUDANTE, jsonKeyValue.getString("id_estudante"));
                                 estudante.put(OficinaContract.Estudante.NOME, jsonKeyValue.getString("nome"));
                                 estudante.put(OficinaContract.Estudante.EMAIL, jsonKeyValue.getString("email"));
                                 estudante.put(OficinaContract.Estudante.TELEFONE, jsonKeyValue.getString("telefone"));
